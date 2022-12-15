@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý ảnh";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý ảnh</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý ảnh</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+
+    <div class="col-lg-12 p-0">
+        <div class="card">
+            <div class="card-body">
+                @(Html.Kendo().Window()
+    .Name("window")
+    .Title("Image Preview")
+    .Visible(false)
+    .Content(@<text>
+        <img id="imagePreview" src="#" alt="Image Preview" />
+    </text>)
+    .Draggable()
+    .Resizable()
+    .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+)
+                @(Html.Kendo().FileManager().Name("filemanager")
+    .DataSource(ds =>
+        {
+            ds.Read(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Read", "FileManagerData")
+        );
+        ds.Destroy(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Destroy", "FileManagerData")
+        );
+        ds.Create(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Create", "FileManagerData")
+        );
+        ds.Update(operation => operation
+            .Type(HttpVerbs.Post)
+            .Action("Update", "FileManagerData")
+        );
+    })
+    .UploadUrl("Upload", "FileManagerData")
+    .Toolbar(tb => tb.Items(items =>
+    {
+        items.Add("createFolder");
+        items.Add("upload");
+        items.Add("sortDirection");
+        items.Add("sortField");
+        items.Add("changeView");
+        items.Add("spacer");
+        items.Add("details");
+        items.Add("search");
+    }))
+    .ContextMenu(context => context.Items(items =>
+    {
+        items.Add("rename");
+        items.Add("delete");
+    }))
+    .Events(events => events
+        .Open("onOpen")
+    )
+)
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var filemanager = $("#filemanager").getKendoFileManager();
+
+            filemanager.executeCommand({ command: "TogglePaneCommand", options: { type: "preview" } });
+            filemanager.toolbar.fileManagerDetailsToggle.switchInstance.toggle();
+        })
+    </script>
+    <script>
+        function onOpen(e) {
+            if (e.entry.extension == ".png" || e.entry.extension == ".jpg") {
+                $("#imagePreview").attr("src", "../content/UserFiles/Folders/" + e.entry.path)
+                $("#window").data("kendoWindow").center().open();
+            }
+        }
+    </script>
+}

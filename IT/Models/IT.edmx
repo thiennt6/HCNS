@@ -1,0 +1,1096 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ITModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DTA_DANHMUCTHIETBIKHAC">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="maphong" Type="varchar" MaxLength="20" />
+          <Property Name="loai" Type="nvarchar" MaxLength="50" />
+          <Property Name="ip" Type="varchar" MaxLength="50" />
+          <Property Name="soluong" Type="int" Nullable="false" />
+          <Property Name="namsudung" Type="int" />
+          <Property Name="tenmay" Type="nvarchar" MaxLength="100" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DTA_DANHSACHTHIETBI">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="tenmay" Type="varchar" MaxLength="50" />
+          <Property Name="maphong" Type="varchar" MaxLength="20" />
+          <Property Name="os" Type="nvarchar" MaxLength="50" />
+          <Property Name="cpu" Type="nvarchar" MaxLength="500" />
+          <Property Name="hdd" Type="varchar" MaxLength="20" />
+          <Property Name="ssd" Type="varchar" MaxLength="20" />
+          <Property Name="ip" Type="varchar" MaxLength="50" />
+          <Property Name="ram" Type="varchar" MaxLength="50" />
+          <Property Name="urlimage" Type="nvarchar" MaxLength="500" />
+          <Property Name="tennguoidung" Type="nvarchar" MaxLength="200" />
+          <Property Name="namsudung" Type="int" />
+          <Property Name="loaimaytinh" Type="varchar" MaxLength="20" />
+          <Property Name="thuonghieu" Type="varchar" MaxLength="20" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_CHITIETPHANQUYEN">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+            <PropertyRef Name="maquyen" />
+          </Key>
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="maquyen" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKHUVUC">
+          <Key>
+            <PropertyRef Name="makhuvuc" />
+          </Key>
+          <Property Name="makhuvuc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tenkhuvuc" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCLOAITHIETBI">
+          <Key>
+            <PropertyRef Name="maloai" />
+          </Key>
+          <Property Name="maloai" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tenthietbi" Type="nvarchar" MaxLength="500" />
+          <Property Name="vongdoi" Type="nvarchar" MaxLength="50" />
+          <Property Name="baohanh" Type="nvarchar" MaxLength="50" />
+          <Property Name="nhacungcap" Type="nvarchar" MaxLength="50" />
+          <Property Name="hang" Type="nvarchar" MaxLength="50" />
+          <Property Name="hopdongmua" Type="nvarchar" MaxLength="100" />
+          <Property Name="model" Type="nvarchar" MaxLength="500" />
+          <Property Name="lop" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCNGUOIDUNG">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+          </Key>
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="hovaten" Type="nvarchar" MaxLength="100" />
+          <Property Name="sdt" Type="varchar" MaxLength="20" />
+          <Property Name="khoatk" Type="bit" Nullable="false" />
+          <Property Name="sltruycap" Type="int" Nullable="false" />
+          <Property Name="ngaydangnhap" Type="smalldatetime" Nullable="false" />
+          <Property Name="maphong" Type="varchar" MaxLength="20" />
+          <Property Name="ngaykyhopdong" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANQUYEN">
+          <Key>
+            <PropertyRef Name="maquyen" />
+          </Key>
+          <Property Name="maquyen" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tenquyen" Type="nvarchar" MaxLength="100" />
+          <Property Name="chitiet" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHONGBAN">
+          <Key>
+            <PropertyRef Name="maphong" />
+          </Key>
+          <Property Name="maphong" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tenphong" Type="nvarchar" MaxLength="100" />
+          <Property Name="makhuvuc" Type="varchar" MaxLength="50" />
+          <Property Name="nguoiduyet" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCSN">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTHIETBI">
+          <Key>
+            <PropertyRef Name="mathietbi" />
+          </Key>
+          <Property Name="mathietbi" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="maloai" Type="varchar" MaxLength="50" />
+          <Property Name="ngay" Type="smalldatetime" Nullable="false" />
+          <Property Name="xuatkho" Type="bit" />
+          <Property Name="serialnumber" Type="varchar" MaxLength="100" />
+          <Property Name="ghichu" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ngaynhan" Type="smalldatetime" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" />
+          <Property Name="maphong" Type="varchar" MaxLength="50" />
+          <Property Name="makhuvuc" Type="varchar" MaxLength="50" />
+          <Property Name="tennguoidung" Type="nvarchar" MaxLength="100" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="chucvu" Type="nvarchar" MaxLength="100" />
+          <Property Name="tenmay" Type="varchar" MaxLength="100" />
+          <Property Name="userid" Type="varchar" MaxLength="500" />
+          <Property Name="bpyeucau" Type="nvarchar" MaxLength="500" />
+          <Property Name="emailpyme" Type="varchar" MaxLength="50" />
+          <Property Name="sdt" Type="varchar" MaxLength="50" />
+          <Property Name="giaothanhcong" Type="bit" />
+          <Property Name="urlimage" Type="varchar" MaxLength="1000" />
+          <Property Name="trangthaiid" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTHIETBI_AUDIT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ngaythuchien" Type="smalldatetime" Nullable="false" />
+          <Property Name="lenh" Type="varchar" MaxLength="50" />
+          <Property Name="mathietbi" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="maloaithietbi" Type="varchar" MaxLength="100" />
+          <Property Name="ngay" Type="smalldatetime" Nullable="false" />
+          <Property Name="xuatkho" Type="bit" />
+          <Property Name="serialnumber" Type="varchar" MaxLength="100" />
+          <Property Name="ghichu" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ngaynhan" Type="smalldatetime" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" />
+          <Property Name="maphong" Type="varchar" MaxLength="50" />
+          <Property Name="makhuvuc" Type="varchar" MaxLength="50" />
+          <Property Name="tennguoidung" Type="nvarchar" MaxLength="100" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="chucvu" Type="nvarchar" MaxLength="100" />
+          <Property Name="tenmay" Type="varchar" MaxLength="100" />
+          <Property Name="userid" Type="varchar" MaxLength="500" />
+          <Property Name="bpyeucau" Type="nvarchar" MaxLength="500" />
+          <Property Name="emailpyme" Type="varchar" MaxLength="50" />
+          <Property Name="sdt" Type="varchar" MaxLength="50" />
+          <Property Name="giaothanhcong" Type="bit" />
+          <Property Name="urlimage" Type="varchar" MaxLength="1000" />
+          <Property Name="trangthaiid" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHLOAIPHEP">
+          <Key>
+            <PropertyRef Name="loaiphep" />
+          </Key>
+          <Property Name="loaiphep" Type="int" Nullable="false" />
+          <Property Name="tenphep" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tongngaynghi" Type="int" />
+          <Property Name="sonam" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGAYNGHI">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tungay" Type="smalldatetime" Nullable="false" />
+          <Property Name="buoitungay" Type="int" Nullable="false" />
+          <Property Name="denngay" Type="smalldatetime" Nullable="false" />
+          <Property Name="buoidenngay" Type="int" Nullable="false" />
+          <Property Name="songaynghi" Type="float" Nullable="false" />
+          <Property Name="loaiphep" Type="int" Nullable="false" />
+          <Property Name="lydo" Type="nvarchar(max)" />
+          <Property Name="nguoiduyet" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="trangthai" Type="int" Nullable="false" />
+          <Property Name="ghichu" Type="nvarchar(max)" />
+          <Property Name="phongban" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+          <Property Name="lydotuchoi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGAYNGHI_AUDIT">
+          <Key>
+            <PropertyRef Name="idaudit" />
+          </Key>
+          <Property Name="idaudit" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ngaythuchien" Type="smalldatetime" Nullable="false" />
+          <Property Name="lenh" Type="varchar" MaxLength="50" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tungay" Type="smalldatetime" Nullable="false" />
+          <Property Name="buoitungay" Type="int" Nullable="false" />
+          <Property Name="denngay" Type="smalldatetime" Nullable="false" />
+          <Property Name="buoidenngay" Type="int" Nullable="false" />
+          <Property Name="songaynghi" Type="float" Nullable="false" />
+          <Property Name="loaiphep" Type="int" Nullable="false" />
+          <Property Name="lydo" Type="nvarchar(max)" />
+          <Property Name="nguoiduyet" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="trangthai" Type="int" Nullable="false" />
+          <Property Name="ghichu" Type="nvarchar(max)" />
+          <Property Name="phongban" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ngaytao" Type="smalldatetime" Nullable="false" />
+          <Property Name="lydotuchoi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGUOINHAN">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Idngaynghi" Type="int" Nullable="false" />
+          <Property Name="taikhoan" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_NHANIN">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TBL_PHIEUGIAONHAN">
+          <Key>
+            <PropertyRef Name="formid" />
+          </Key>
+          <Property Name="formid" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tennguoidung" Type="nvarchar" MaxLength="100" />
+          <Property Name="userid" Type="varchar" MaxLength="500" />
+          <Property Name="maphong" Type="varchar" MaxLength="50" />
+          <Property Name="tenmay" Type="varchar" MaxLength="100" />
+          <Property Name="serialnumber" Type="varchar" MaxLength="100" />
+          <Property Name="ngay" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="500" />
+          <Property Name="loai" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBL_TRANGTHAIMAY">
+          <Key>
+            <PropertyRef Name="trangthaiid" />
+          </Key>
+          <Property Name="trangthaiid" Type="int" Nullable="false" />
+          <Property Name="tentrangthai" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN">
+          <End Role="TBL_DANHMUCPHONGBAN" Type="Self.TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Role="DTA_DANHMUCTHIETBIKHAC" Type="Self.DTA_DANHMUCTHIETBIKHAC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="DTA_DANHMUCTHIETBIKHAC">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN">
+          <End Role="TBL_DANHMUCPHONGBAN" Type="Self.TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Role="DTA_DANHSACHTHIETBI" Type="Self.DTA_DANHSACHTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="DTA_DANHSACHTHIETBI">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCNGUOIDUNG">
+          <End Role="TBL_DANHMUCNGUOIDUNG" Type="Self.TBL_DANHMUCNGUOIDUNG" Multiplicity="1" />
+          <End Role="TBL_CHITIETPHANQUYEN" Type="Self.TBL_CHITIETPHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCNGUOIDUNG">
+              <PropertyRef Name="taikhoan" />
+            </Principal>
+            <Dependent Role="TBL_CHITIETPHANQUYEN">
+              <PropertyRef Name="taikhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCPHANQUYEN">
+          <End Role="TBL_DANHMUCPHANQUYEN" Type="Self.TBL_DANHMUCPHANQUYEN" Multiplicity="1" />
+          <End Role="TBL_CHITIETPHANQUYEN" Type="Self.TBL_CHITIETPHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHANQUYEN">
+              <PropertyRef Name="maquyen" />
+            </Principal>
+            <Dependent Role="TBL_CHITIETPHANQUYEN">
+              <PropertyRef Name="maquyen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN">
+          <End Role="TBL_DANHMUCPHONGBAN" Type="Self.TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Role="TBL_DANHMUCNGUOIDUNG" Type="Self.TBL_DANHMUCNGUOIDUNG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCNGUOIDUNG">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC">
+          <End Role="TBL_DANHMUCKHUVUC" Type="Self.TBL_DANHMUCKHUVUC" Multiplicity="0..1" />
+          <End Role="TBL_DANHMUCPHONGBAN" Type="Self.TBL_DANHMUCPHONGBAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCKHUVUC">
+              <PropertyRef Name="makhuvuc" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="makhuvuc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI">
+          <End Role="TBL_DANHMUCLOAITHIETBI" Type="Self.TBL_DANHMUCLOAITHIETBI" Multiplicity="0..1" />
+          <End Role="TBL_DANHMUCTHIETBI" Type="Self.TBL_DANHMUCTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCLOAITHIETBI">
+              <PropertyRef Name="maloai" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCTHIETBI">
+              <PropertyRef Name="maloai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY">
+          <End Role="TBL_TRANGTHAIMAY" Type="Self.TBL_TRANGTHAIMAY" Multiplicity="0..1" />
+          <End Role="TBL_DANHMUCTHIETBI" Type="Self.TBL_DANHMUCTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_TRANGTHAIMAY">
+              <PropertyRef Name="trangthaiid" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCTHIETBI">
+              <PropertyRef Name="trangthaiid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP">
+          <End Role="TBL_DANHSACHLOAIPHEP" Type="Self.TBL_DANHSACHLOAIPHEP" Multiplicity="1" />
+          <End Role="TBL_DANHSACHNGAYNGHI" Type="Self.TBL_DANHSACHNGAYNGHI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHSACHLOAIPHEP">
+              <PropertyRef Name="loaiphep" />
+            </Principal>
+            <Dependent Role="TBL_DANHSACHNGAYNGHI">
+              <PropertyRef Name="loaiphep" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ITModelStoreContainer">
+          <EntitySet Name="DTA_DANHMUCTHIETBIKHAC" EntityType="Self.DTA_DANHMUCTHIETBIKHAC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DTA_DANHSACHTHIETBI" EntityType="Self.DTA_DANHSACHTHIETBI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_CHITIETPHANQUYEN" EntityType="Self.TBL_CHITIETPHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCKHUVUC" EntityType="Self.TBL_DANHMUCKHUVUC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCLOAITHIETBI" EntityType="Self.TBL_DANHMUCLOAITHIETBI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCNGUOIDUNG" EntityType="Self.TBL_DANHMUCNGUOIDUNG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCPHANQUYEN" EntityType="Self.TBL_DANHMUCPHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCPHONGBAN" EntityType="Self.TBL_DANHMUCPHONGBAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCSN" EntityType="Self.TBL_DANHMUCSN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCTHIETBI" EntityType="Self.TBL_DANHMUCTHIETBI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHMUCTHIETBI_AUDIT" EntityType="Self.TBL_DANHMUCTHIETBI_AUDIT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHSACHLOAIPHEP" EntityType="Self.TBL_DANHSACHLOAIPHEP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHSACHNGAYNGHI" EntityType="Self.TBL_DANHSACHNGAYNGHI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHSACHNGAYNGHI_AUDIT" EntityType="Self.TBL_DANHSACHNGAYNGHI_AUDIT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DANHSACHNGUOINHAN" EntityType="Self.TBL_DANHSACHNGUOINHAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_NHANIN" EntityType="Self.TBL_NHANIN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_PHIEUGIAONHAN" EntityType="Self.TBL_PHIEUGIAONHAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_TRANGTHAIMAY" EntityType="Self.TBL_TRANGTHAIMAY" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN" Association="Self.FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="DTA_DANHMUCTHIETBIKHAC" EntitySet="DTA_DANHMUCTHIETBIKHAC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN" Association="Self.FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="DTA_DANHSACHTHIETBI" EntitySet="DTA_DANHSACHTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCNGUOIDUNG" Association="Self.FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCNGUOIDUNG">
+            <End Role="TBL_DANHMUCNGUOIDUNG" EntitySet="TBL_DANHMUCNGUOIDUNG" />
+            <End Role="TBL_CHITIETPHANQUYEN" EntitySet="TBL_CHITIETPHANQUYEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCPHANQUYEN" Association="Self.FK_TBL_CHITIETPHANQUYEN_TBL_DANHMUCPHANQUYEN">
+            <End Role="TBL_DANHMUCPHANQUYEN" EntitySet="TBL_DANHMUCPHANQUYEN" />
+            <End Role="TBL_CHITIETPHANQUYEN" EntitySet="TBL_CHITIETPHANQUYEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN" Association="Self.FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="TBL_DANHMUCNGUOIDUNG" EntitySet="TBL_DANHMUCNGUOIDUNG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC" Association="Self.FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC">
+            <End Role="TBL_DANHMUCKHUVUC" EntitySet="TBL_DANHMUCKHUVUC" />
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI" Association="Self.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI">
+            <End Role="TBL_DANHMUCLOAITHIETBI" EntitySet="TBL_DANHMUCLOAITHIETBI" />
+            <End Role="TBL_DANHMUCTHIETBI" EntitySet="TBL_DANHMUCTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY" Association="Self.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY">
+            <End Role="TBL_TRANGTHAIMAY" EntitySet="TBL_TRANGTHAIMAY" />
+            <End Role="TBL_DANHMUCTHIETBI" EntitySet="TBL_DANHMUCTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP" Association="Self.FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP">
+            <End Role="TBL_DANHSACHLOAIPHEP" EntitySet="TBL_DANHSACHLOAIPHEP" />
+            <End Role="TBL_DANHSACHNGAYNGHI" EntitySet="TBL_DANHSACHNGAYNGHI" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ITModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ITEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DTA_DANHMUCTHIETBIKHAC" EntityType="ITModel.DTA_DANHMUCTHIETBIKHAC" />
+          <EntitySet Name="DTA_DANHSACHTHIETBI" EntityType="ITModel.DTA_DANHSACHTHIETBI" />
+          <EntitySet Name="TBL_DANHMUCKHUVUC" EntityType="ITModel.TBL_DANHMUCKHUVUC" />
+          <EntitySet Name="TBL_DANHMUCLOAITHIETBI" EntityType="ITModel.TBL_DANHMUCLOAITHIETBI" />
+          <EntitySet Name="TBL_DANHMUCNGUOIDUNG" EntityType="ITModel.TBL_DANHMUCNGUOIDUNG" />
+          <EntitySet Name="TBL_DANHMUCPHANQUYEN" EntityType="ITModel.TBL_DANHMUCPHANQUYEN" />
+          <EntitySet Name="TBL_DANHMUCPHONGBAN" EntityType="ITModel.TBL_DANHMUCPHONGBAN" />
+          <EntitySet Name="TBL_DANHMUCSN" EntityType="ITModel.TBL_DANHMUCSN" />
+          <EntitySet Name="TBL_DANHMUCTHIETBI" EntityType="ITModel.TBL_DANHMUCTHIETBI" />
+          <EntitySet Name="TBL_DANHMUCTHIETBI_AUDIT" EntityType="ITModel.TBL_DANHMUCTHIETBI_AUDIT" />
+          <EntitySet Name="TBL_DANHSACHLOAIPHEP" EntityType="ITModel.TBL_DANHSACHLOAIPHEP" />
+          <EntitySet Name="TBL_DANHSACHNGAYNGHI" EntityType="ITModel.TBL_DANHSACHNGAYNGHI" />
+          <EntitySet Name="TBL_DANHSACHNGAYNGHI_AUDIT" EntityType="ITModel.TBL_DANHSACHNGAYNGHI_AUDIT" />
+          <EntitySet Name="TBL_DANHSACHNGUOINHAN" EntityType="ITModel.TBL_DANHSACHNGUOINHAN" />
+          <EntitySet Name="TBL_NHANIN" EntityType="ITModel.TBL_NHANIN" />
+          <EntitySet Name="TBL_PHIEUGIAONHAN" EntityType="ITModel.TBL_PHIEUGIAONHAN" />
+          <EntitySet Name="TBL_TRANGTHAIMAY" EntityType="ITModel.TBL_TRANGTHAIMAY" />
+          <AssociationSet Name="FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN" Association="ITModel.FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="DTA_DANHMUCTHIETBIKHAC" EntitySet="DTA_DANHMUCTHIETBIKHAC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN" Association="ITModel.FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="DTA_DANHSACHTHIETBI" EntitySet="DTA_DANHSACHTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC" Association="ITModel.FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC">
+            <End Role="TBL_DANHMUCKHUVUC" EntitySet="TBL_DANHMUCKHUVUC" />
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI" Association="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI">
+            <End Role="TBL_DANHMUCLOAITHIETBI" EntitySet="TBL_DANHMUCLOAITHIETBI" />
+            <End Role="TBL_DANHMUCTHIETBI" EntitySet="TBL_DANHMUCTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN" Association="ITModel.FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN">
+            <End Role="TBL_DANHMUCPHONGBAN" EntitySet="TBL_DANHMUCPHONGBAN" />
+            <End Role="TBL_DANHMUCNGUOIDUNG" EntitySet="TBL_DANHMUCNGUOIDUNG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY" Association="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY">
+            <End Role="TBL_TRANGTHAIMAY" EntitySet="TBL_TRANGTHAIMAY" />
+            <End Role="TBL_DANHMUCTHIETBI" EntitySet="TBL_DANHMUCTHIETBI" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP" Association="ITModel.FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP">
+            <End Role="TBL_DANHSACHLOAIPHEP" EntitySet="TBL_DANHSACHLOAIPHEP" />
+            <End Role="TBL_DANHSACHNGAYNGHI" EntitySet="TBL_DANHSACHNGAYNGHI" />
+          </AssociationSet>
+          <AssociationSet Name="TBL_CHITIETPHANQUYEN" Association="ITModel.TBL_CHITIETPHANQUYEN">
+            <End Role="TBL_DANHMUCNGUOIDUNG" EntitySet="TBL_DANHMUCNGUOIDUNG" />
+            <End Role="TBL_DANHMUCPHANQUYEN" EntitySet="TBL_DANHMUCPHANQUYEN" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DTA_DANHMUCTHIETBIKHAC">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="maphong" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="loai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="soluong" Type="Int32" Nullable="false" />
+          <Property Name="namsudung" Type="Int32" />
+          <Property Name="tenmay" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="TBL_DANHMUCPHONGBAN" Relationship="ITModel.FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN" FromRole="DTA_DANHMUCTHIETBIKHAC" ToRole="TBL_DANHMUCPHONGBAN" />
+        </EntityType>
+        <EntityType Name="DTA_DANHSACHTHIETBI">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="tenmay" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="maphong" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="os" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cpu" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="hdd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ssd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ram" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="urlimage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="tennguoidung" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="namsudung" Type="Int32" />
+          <Property Name="loaimaytinh" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="thuonghieu" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="TBL_DANHMUCPHONGBAN" Relationship="ITModel.FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN" FromRole="DTA_DANHSACHTHIETBI" ToRole="TBL_DANHMUCPHONGBAN" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCKHUVUC">
+          <Key>
+            <PropertyRef Name="makhuvuc" />
+          </Key>
+          <Property Name="makhuvuc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tenkhuvuc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DANHMUCPHONGBAN" Relationship="ITModel.FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC" FromRole="TBL_DANHMUCKHUVUC" ToRole="TBL_DANHMUCPHONGBAN" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCLOAITHIETBI">
+          <Key>
+            <PropertyRef Name="maloai" />
+          </Key>
+          <Property Name="maloai" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tenthietbi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="vongdoi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="baohanh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nhacungcap" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hopdongmua" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="lop" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DANHMUCTHIETBI" Relationship="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI" FromRole="TBL_DANHMUCLOAITHIETBI" ToRole="TBL_DANHMUCTHIETBI" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCNGUOIDUNG">
+          <Key>
+            <PropertyRef Name="taikhoan" />
+          </Key>
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hovaten" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="sdt" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="khoatk" Type="Boolean" Nullable="false" />
+          <Property Name="sltruycap" Type="Int32" Nullable="false" />
+          <Property Name="ngaydangnhap" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="maphong" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ngaykyhopdong" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="TBL_DANHMUCPHONGBAN" Relationship="ITModel.FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN" FromRole="TBL_DANHMUCNGUOIDUNG" ToRole="TBL_DANHMUCPHONGBAN" />
+          <NavigationProperty Name="TBL_DANHMUCPHANQUYEN" Relationship="ITModel.TBL_CHITIETPHANQUYEN" FromRole="TBL_DANHMUCNGUOIDUNG" ToRole="TBL_DANHMUCPHANQUYEN" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHANQUYEN">
+          <Key>
+            <PropertyRef Name="maquyen" />
+          </Key>
+          <Property Name="maquyen" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tenquyen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="chitiet" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DANHMUCNGUOIDUNG" Relationship="ITModel.TBL_CHITIETPHANQUYEN" FromRole="TBL_DANHMUCPHANQUYEN" ToRole="TBL_DANHMUCNGUOIDUNG" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCPHONGBAN">
+          <Key>
+            <PropertyRef Name="maphong" />
+          </Key>
+          <Property Name="maphong" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tenphong" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="makhuvuc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nguoiduyet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DTA_DANHMUCTHIETBIKHAC" Relationship="ITModel.FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN" FromRole="TBL_DANHMUCPHONGBAN" ToRole="DTA_DANHMUCTHIETBIKHAC" />
+          <NavigationProperty Name="DTA_DANHSACHTHIETBI" Relationship="ITModel.FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN" FromRole="TBL_DANHMUCPHONGBAN" ToRole="DTA_DANHSACHTHIETBI" />
+          <NavigationProperty Name="TBL_DANHMUCKHUVUC" Relationship="ITModel.FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC" FromRole="TBL_DANHMUCPHONGBAN" ToRole="TBL_DANHMUCKHUVUC" />
+          <NavigationProperty Name="TBL_DANHMUCNGUOIDUNG" Relationship="ITModel.FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN" FromRole="TBL_DANHMUCPHONGBAN" ToRole="TBL_DANHMUCNGUOIDUNG" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCSN">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTHIETBI">
+          <Key>
+            <PropertyRef Name="mathietbi" />
+          </Key>
+          <Property Name="mathietbi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="maloai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ngay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="xuatkho" Type="Boolean" />
+          <Property Name="serialnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ghichu" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ngaynhan" Type="DateTime" Precision="0" />
+          <Property Name="taikhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="maphong" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="makhuvuc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tennguoidung" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="chucvu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="tenmay" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="bpyeucau" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="emailpyme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sdt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="giaothanhcong" Type="Boolean" />
+          <Property Name="urlimage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="trangthaiid" Type="Int32" />
+          <NavigationProperty Name="TBL_DANHMUCLOAITHIETBI" Relationship="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI" FromRole="TBL_DANHMUCTHIETBI" ToRole="TBL_DANHMUCLOAITHIETBI" />
+          <NavigationProperty Name="TBL_TRANGTHAIMAY" Relationship="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY" FromRole="TBL_DANHMUCTHIETBI" ToRole="TBL_TRANGTHAIMAY" />
+        </EntityType>
+        <EntityType Name="TBL_DANHMUCTHIETBI_AUDIT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ngaythuchien" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lenh" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mathietbi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="maloaithietbi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ngay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="xuatkho" Type="Boolean" />
+          <Property Name="serialnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ghichu" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ngaynhan" Type="DateTime" Precision="0" />
+          <Property Name="taikhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="maphong" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="makhuvuc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tennguoidung" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="chucvu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="tenmay" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="bpyeucau" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="emailpyme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sdt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="giaothanhcong" Type="Boolean" />
+          <Property Name="urlimage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="trangthaiid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHLOAIPHEP">
+          <Key>
+            <PropertyRef Name="loaiphep" />
+          </Key>
+          <Property Name="loaiphep" Type="Int32" Nullable="false" />
+          <Property Name="tenphep" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tongngaynghi" Type="Int32" />
+          <Property Name="sonam" Type="Int32" />
+          <NavigationProperty Name="TBL_DANHSACHNGAYNGHI" Relationship="ITModel.FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP" FromRole="TBL_DANHSACHLOAIPHEP" ToRole="TBL_DANHSACHNGAYNGHI" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGAYNGHI">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tungay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="buoitungay" Type="Int32" Nullable="false" />
+          <Property Name="denngay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="buoidenngay" Type="Int32" Nullable="false" />
+          <Property Name="songaynghi" Type="Double" Nullable="false" />
+          <Property Name="loaiphep" Type="Int32" Nullable="false" />
+          <Property Name="lydo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nguoiduyet" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="trangthai" Type="Int32" Nullable="false" />
+          <Property Name="ghichu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phongban" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lydotuchoi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DANHSACHLOAIPHEP" Relationship="ITModel.FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP" FromRole="TBL_DANHSACHNGAYNGHI" ToRole="TBL_DANHSACHLOAIPHEP" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGAYNGHI_AUDIT">
+          <Key>
+            <PropertyRef Name="idaudit" />
+          </Key>
+          <Property Name="idaudit" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ngaythuchien" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lenh" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tungay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="buoitungay" Type="Int32" Nullable="false" />
+          <Property Name="denngay" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="buoidenngay" Type="Int32" Nullable="false" />
+          <Property Name="songaynghi" Type="Double" Nullable="false" />
+          <Property Name="loaiphep" Type="Int32" Nullable="false" />
+          <Property Name="lydo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nguoiduyet" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="trangthai" Type="Int32" Nullable="false" />
+          <Property Name="ghichu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phongban" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ngaytao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lydotuchoi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TBL_DANHSACHNGUOINHAN">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Idngaynghi" Type="Int32" Nullable="false" />
+          <Property Name="taikhoan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_NHANIN">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_PHIEUGIAONHAN">
+          <Key>
+            <PropertyRef Name="formid" />
+          </Key>
+          <Property Name="formid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tennguoidung" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="userid" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="maphong" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tenmay" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="serialnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ngay" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="loai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_TRANGTHAIMAY">
+          <Key>
+            <PropertyRef Name="trangthaiid" />
+          </Key>
+          <Property Name="trangthaiid" Type="Int32" Nullable="false" />
+          <Property Name="tentrangthai" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TBL_DANHMUCTHIETBI" Relationship="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY" FromRole="TBL_TRANGTHAIMAY" ToRole="TBL_DANHMUCTHIETBI" />
+        </EntityType>
+        <Association Name="FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN">
+          <End Type="ITModel.TBL_DANHMUCPHONGBAN" Role="TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Type="ITModel.DTA_DANHMUCTHIETBIKHAC" Role="DTA_DANHMUCTHIETBIKHAC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="DTA_DANHMUCTHIETBIKHAC">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN">
+          <End Type="ITModel.TBL_DANHMUCPHONGBAN" Role="TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Type="ITModel.DTA_DANHSACHTHIETBI" Role="DTA_DANHSACHTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="DTA_DANHSACHTHIETBI">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC">
+          <End Type="ITModel.TBL_DANHMUCKHUVUC" Role="TBL_DANHMUCKHUVUC" Multiplicity="0..1" />
+          <End Type="ITModel.TBL_DANHMUCPHONGBAN" Role="TBL_DANHMUCPHONGBAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCKHUVUC">
+              <PropertyRef Name="makhuvuc" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="makhuvuc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI">
+          <End Type="ITModel.TBL_DANHMUCLOAITHIETBI" Role="TBL_DANHMUCLOAITHIETBI" Multiplicity="0..1" />
+          <End Type="ITModel.TBL_DANHMUCTHIETBI" Role="TBL_DANHMUCTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCLOAITHIETBI">
+              <PropertyRef Name="maloai" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCTHIETBI">
+              <PropertyRef Name="maloai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN">
+          <End Type="ITModel.TBL_DANHMUCPHONGBAN" Role="TBL_DANHMUCPHONGBAN" Multiplicity="0..1" />
+          <End Type="ITModel.TBL_DANHMUCNGUOIDUNG" Role="TBL_DANHMUCNGUOIDUNG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHMUCPHONGBAN">
+              <PropertyRef Name="maphong" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCNGUOIDUNG">
+              <PropertyRef Name="maphong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY">
+          <End Type="ITModel.TBL_TRANGTHAIMAY" Role="TBL_TRANGTHAIMAY" Multiplicity="0..1" />
+          <End Type="ITModel.TBL_DANHMUCTHIETBI" Role="TBL_DANHMUCTHIETBI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_TRANGTHAIMAY">
+              <PropertyRef Name="trangthaiid" />
+            </Principal>
+            <Dependent Role="TBL_DANHMUCTHIETBI">
+              <PropertyRef Name="trangthaiid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP">
+          <End Type="ITModel.TBL_DANHSACHLOAIPHEP" Role="TBL_DANHSACHLOAIPHEP" Multiplicity="1" />
+          <End Type="ITModel.TBL_DANHSACHNGAYNGHI" Role="TBL_DANHSACHNGAYNGHI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DANHSACHLOAIPHEP">
+              <PropertyRef Name="loaiphep" />
+            </Principal>
+            <Dependent Role="TBL_DANHSACHNGAYNGHI">
+              <PropertyRef Name="loaiphep" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TBL_CHITIETPHANQUYEN">
+          <End Type="ITModel.TBL_DANHMUCNGUOIDUNG" Role="TBL_DANHMUCNGUOIDUNG" Multiplicity="*" />
+          <End Type="ITModel.TBL_DANHMUCPHANQUYEN" Role="TBL_DANHMUCPHANQUYEN" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ITModelStoreContainer" CdmEntityContainer="ITEntities">
+          <EntitySetMapping Name="DTA_DANHMUCTHIETBIKHAC">
+            <EntityTypeMapping TypeName="ITModel.DTA_DANHMUCTHIETBIKHAC">
+              <MappingFragment StoreEntitySet="DTA_DANHMUCTHIETBIKHAC">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+                <ScalarProperty Name="namsudung" ColumnName="namsudung" />
+                <ScalarProperty Name="soluong" ColumnName="soluong" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="loai" ColumnName="loai" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DTA_DANHSACHTHIETBI">
+            <EntityTypeMapping TypeName="ITModel.DTA_DANHSACHTHIETBI">
+              <MappingFragment StoreEntitySet="DTA_DANHSACHTHIETBI">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="thuonghieu" ColumnName="thuonghieu" />
+                <ScalarProperty Name="loaimaytinh" ColumnName="loaimaytinh" />
+                <ScalarProperty Name="namsudung" ColumnName="namsudung" />
+                <ScalarProperty Name="tennguoidung" ColumnName="tennguoidung" />
+                <ScalarProperty Name="urlimage" ColumnName="urlimage" />
+                <ScalarProperty Name="ram" ColumnName="ram" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="ssd" ColumnName="ssd" />
+                <ScalarProperty Name="hdd" ColumnName="hdd" />
+                <ScalarProperty Name="cpu" ColumnName="cpu" />
+                <ScalarProperty Name="os" ColumnName="os" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCKHUVUC">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCKHUVUC">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCKHUVUC">
+                <ScalarProperty Name="tenkhuvuc" ColumnName="tenkhuvuc" />
+                <ScalarProperty Name="makhuvuc" ColumnName="makhuvuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCLOAITHIETBI">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCLOAITHIETBI">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCLOAITHIETBI">
+                <ScalarProperty Name="lop" ColumnName="lop" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="hopdongmua" ColumnName="hopdongmua" />
+                <ScalarProperty Name="hang" ColumnName="hang" />
+                <ScalarProperty Name="nhacungcap" ColumnName="nhacungcap" />
+                <ScalarProperty Name="baohanh" ColumnName="baohanh" />
+                <ScalarProperty Name="vongdoi" ColumnName="vongdoi" />
+                <ScalarProperty Name="tenthietbi" ColumnName="tenthietbi" />
+                <ScalarProperty Name="maloai" ColumnName="maloai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCNGUOIDUNG">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCNGUOIDUNG">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCNGUOIDUNG">
+                <ScalarProperty Name="ngaykyhopdong" ColumnName="ngaykyhopdong" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+                <ScalarProperty Name="ngaydangnhap" ColumnName="ngaydangnhap" />
+                <ScalarProperty Name="sltruycap" ColumnName="sltruycap" />
+                <ScalarProperty Name="khoatk" ColumnName="khoatk" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="hovaten" ColumnName="hovaten" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCPHANQUYEN">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCPHANQUYEN">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCPHANQUYEN">
+                <ScalarProperty Name="chitiet" ColumnName="chitiet" />
+                <ScalarProperty Name="tenquyen" ColumnName="tenquyen" />
+                <ScalarProperty Name="maquyen" ColumnName="maquyen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCPHONGBAN">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCPHONGBAN">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCPHONGBAN">
+                <ScalarProperty Name="nguoiduyet" ColumnName="nguoiduyet" />
+                <ScalarProperty Name="makhuvuc" ColumnName="makhuvuc" />
+                <ScalarProperty Name="tenphong" ColumnName="tenphong" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCSN">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCSN">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCSN">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCTHIETBI">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCTHIETBI">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCTHIETBI">
+                <ScalarProperty Name="trangthaiid" ColumnName="trangthaiid" />
+                <ScalarProperty Name="urlimage" ColumnName="urlimage" />
+                <ScalarProperty Name="giaothanhcong" ColumnName="giaothanhcong" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="emailpyme" ColumnName="emailpyme" />
+                <ScalarProperty Name="bpyeucau" ColumnName="bpyeucau" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+                <ScalarProperty Name="chucvu" ColumnName="chucvu" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="tennguoidung" ColumnName="tennguoidung" />
+                <ScalarProperty Name="makhuvuc" ColumnName="makhuvuc" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="ngaynhan" ColumnName="ngaynhan" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="serialnumber" ColumnName="serialnumber" />
+                <ScalarProperty Name="xuatkho" ColumnName="xuatkho" />
+                <ScalarProperty Name="ngay" ColumnName="ngay" />
+                <ScalarProperty Name="maloai" ColumnName="maloai" />
+                <ScalarProperty Name="mathietbi" ColumnName="mathietbi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHMUCTHIETBI_AUDIT">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHMUCTHIETBI_AUDIT">
+              <MappingFragment StoreEntitySet="TBL_DANHMUCTHIETBI_AUDIT">
+                <ScalarProperty Name="trangthaiid" ColumnName="trangthaiid" />
+                <ScalarProperty Name="urlimage" ColumnName="urlimage" />
+                <ScalarProperty Name="giaothanhcong" ColumnName="giaothanhcong" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="emailpyme" ColumnName="emailpyme" />
+                <ScalarProperty Name="bpyeucau" ColumnName="bpyeucau" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+                <ScalarProperty Name="chucvu" ColumnName="chucvu" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="tennguoidung" ColumnName="tennguoidung" />
+                <ScalarProperty Name="makhuvuc" ColumnName="makhuvuc" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="ngaynhan" ColumnName="ngaynhan" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="serialnumber" ColumnName="serialnumber" />
+                <ScalarProperty Name="xuatkho" ColumnName="xuatkho" />
+                <ScalarProperty Name="ngay" ColumnName="ngay" />
+                <ScalarProperty Name="maloaithietbi" ColumnName="maloaithietbi" />
+                <ScalarProperty Name="mathietbi" ColumnName="mathietbi" />
+                <ScalarProperty Name="lenh" ColumnName="lenh" />
+                <ScalarProperty Name="ngaythuchien" ColumnName="ngaythuchien" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHSACHLOAIPHEP">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHSACHLOAIPHEP">
+              <MappingFragment StoreEntitySet="TBL_DANHSACHLOAIPHEP">
+                <ScalarProperty Name="sonam" ColumnName="sonam" />
+                <ScalarProperty Name="tongngaynghi" ColumnName="tongngaynghi" />
+                <ScalarProperty Name="tenphep" ColumnName="tenphep" />
+                <ScalarProperty Name="loaiphep" ColumnName="loaiphep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHSACHNGAYNGHI">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHSACHNGAYNGHI">
+              <MappingFragment StoreEntitySet="TBL_DANHSACHNGAYNGHI">
+                <ScalarProperty Name="lydotuchoi" ColumnName="lydotuchoi" />
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="phongban" ColumnName="phongban" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="nguoiduyet" ColumnName="nguoiduyet" />
+                <ScalarProperty Name="lydo" ColumnName="lydo" />
+                <ScalarProperty Name="loaiphep" ColumnName="loaiphep" />
+                <ScalarProperty Name="songaynghi" ColumnName="songaynghi" />
+                <ScalarProperty Name="buoidenngay" ColumnName="buoidenngay" />
+                <ScalarProperty Name="denngay" ColumnName="denngay" />
+                <ScalarProperty Name="buoitungay" ColumnName="buoitungay" />
+                <ScalarProperty Name="tungay" ColumnName="tungay" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHSACHNGAYNGHI_AUDIT">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHSACHNGAYNGHI_AUDIT">
+              <MappingFragment StoreEntitySet="TBL_DANHSACHNGAYNGHI_AUDIT">
+                <ScalarProperty Name="lydotuchoi" ColumnName="lydotuchoi" />
+                <ScalarProperty Name="ngaytao" ColumnName="ngaytao" />
+                <ScalarProperty Name="phongban" ColumnName="phongban" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="nguoiduyet" ColumnName="nguoiduyet" />
+                <ScalarProperty Name="lydo" ColumnName="lydo" />
+                <ScalarProperty Name="loaiphep" ColumnName="loaiphep" />
+                <ScalarProperty Name="songaynghi" ColumnName="songaynghi" />
+                <ScalarProperty Name="buoidenngay" ColumnName="buoidenngay" />
+                <ScalarProperty Name="denngay" ColumnName="denngay" />
+                <ScalarProperty Name="buoitungay" ColumnName="buoitungay" />
+                <ScalarProperty Name="tungay" ColumnName="tungay" />
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lenh" ColumnName="lenh" />
+                <ScalarProperty Name="ngaythuchien" ColumnName="ngaythuchien" />
+                <ScalarProperty Name="idaudit" ColumnName="idaudit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DANHSACHNGUOINHAN">
+            <EntityTypeMapping TypeName="ITModel.TBL_DANHSACHNGUOINHAN">
+              <MappingFragment StoreEntitySet="TBL_DANHSACHNGUOINHAN">
+                <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+                <ScalarProperty Name="Idngaynghi" ColumnName="Idngaynghi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_NHANIN">
+            <EntityTypeMapping TypeName="ITModel.TBL_NHANIN">
+              <MappingFragment StoreEntitySet="TBL_NHANIN">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SN" ColumnName="SN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PHIEUGIAONHAN">
+            <EntityTypeMapping TypeName="ITModel.TBL_PHIEUGIAONHAN">
+              <MappingFragment StoreEntitySet="TBL_PHIEUGIAONHAN">
+                <ScalarProperty Name="loai" ColumnName="loai" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="ngay" ColumnName="ngay" />
+                <ScalarProperty Name="serialnumber" ColumnName="serialnumber" />
+                <ScalarProperty Name="tenmay" ColumnName="tenmay" />
+                <ScalarProperty Name="maphong" ColumnName="maphong" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="tennguoidung" ColumnName="tennguoidung" />
+                <ScalarProperty Name="formid" ColumnName="formid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_TRANGTHAIMAY">
+            <EntityTypeMapping TypeName="ITModel.TBL_TRANGTHAIMAY">
+              <MappingFragment StoreEntitySet="TBL_TRANGTHAIMAY">
+                <ScalarProperty Name="tentrangthai" ColumnName="tentrangthai" />
+                <ScalarProperty Name="trangthaiid" ColumnName="trangthaiid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TBL_CHITIETPHANQUYEN" TypeName="ITModel.TBL_CHITIETPHANQUYEN" StoreEntitySet="TBL_CHITIETPHANQUYEN">
+            <EndProperty Name="TBL_DANHMUCPHANQUYEN">
+              <ScalarProperty Name="maquyen" ColumnName="maquyen" />
+            </EndProperty>
+            <EndProperty Name="TBL_DANHMUCNGUOIDUNG">
+              <ScalarProperty Name="taikhoan" ColumnName="taikhoan" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

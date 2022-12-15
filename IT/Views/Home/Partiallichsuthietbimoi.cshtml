@@ -1,0 +1,55 @@
+﻿@model IEnumerable<IT.Models.TBL_DANHMUCTHIETBI_AUDIT>
+<div class="card">
+    <div class="card-body">
+
+        <table id="datatable-buttons1" class="table table-striped table-bordered display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Ngày thực hiện</th>
+                    <th style="width:200px">Người thực hiện</th>
+                    <th>Lệnh</th>
+                    <th>Serial Number</th>
+                    <th>Người dùng</th>
+                    <th>Mã khu vực</th>
+                    <th>Mã phòng</th>
+                    <th>Chức vụ</th>
+                    <th>Email Stada</th>
+                    <th>Email Pymepharco</th>
+                    <th>SĐT</th>
+                    <th>BP yêu cầu</th>
+                    <th>Ngày giao</th>
+                    <th>Trạng thái</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var count = 1;
+                    foreach (var i in Model)
+                    {
+                                <tr>
+                                    <td>@i.ngaythuchien.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@i.taikhoan.ToLower()</td>
+                                    <td>@i.lenh</td>
+                                    <td>@i.serialnumber</td>
+                                    <td>@i.tennguoidung</td>
+                                    <td>@i.makhuvuc</td>
+                                    <td>@i.maphong</td>
+                                    <td>@i.chucvu</td>
+                                    <td>@i.email</td>
+                                    <td>@i.emailpyme</td>
+                                    <td>@i.sdt</td>
+                                    <td>@i.bpyeucau</td>
+                                    <td>@(((i.ngaynhan != null)?((DateTime)i.ngaynhan).ToString("dd/MM/yyyy"):""))</td>
+                                    <td>@((i.xuatkho == false)?"Tồn kho":"Đã xuất kho")</td>
+                                    <td>@i.ghichu</td>
+                                </tr>
+                        count = count + 1;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

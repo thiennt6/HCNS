@@ -1,0 +1,340 @@
+﻿@model IT.Models.THIETBIMOI
+@{
+    ViewBag.Title = "Thêm thiết bị";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Thêm thiết bị</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Thêm thiết bị</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+
+    <div class="col-lg-12 p-0">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mt-0 header-title font-weight-bold">THÔNG TIN THIẾT BỊ</h4>
+                <p class="text-muted mb-3">
+                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                </p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Loại thiết bị <code class="text-danger">(*)</code></label>
+                            <select id="maloai" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.LOAITHIETBI)
+                                {
+                                    <option value="@i.maloai">@i.maloai - @i.tenthietbi</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    @*<div class="col-lg-6">
+            <div class="form-group">
+                <label class="font-weight-bold" for="exampleInputEmail1">Mã thiết bị <code class="text-danger">(*)</code></label>
+                <input type="text" class="form-control" id="tennguoidung" placeholder="Nhập tên người dùng">
+            </div>
+        </div>*@
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold mb-3" for="exampleInputEmail1">Serial Number <code class="text-danger">(*)</code></label>
+                            <select id="serialnumber" class="select2 form-control custom-select selectreset" style="width: 100%; height:36px;">
+                                <option value="">Chọn số Serial Number</option>
+                                @foreach (var i in Model.SN)
+                                {
+                                    if (i.Sudung == true)
+                                    {
+                                        <option disabled="disabled" value="@i.SN">@i.SN</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.SN">@i.SN</option>
+                                    }
+
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên máy <code class="text-danger">(*)</code></label>
+                            <input readonly type="text" class="form-control" id="tenmay" placeholder="Nhập tên máy">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái kho <code class="text-danger">(*)</code></label>
+                            <select id="xuatkho" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                <option value=false>Tồn kho</option>
+                                <option value=true>Đã xuất kho</option>
+                                <option value=null>Đang bảo hành</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Khu vực <code class="text-danger">(*)</code></label>
+                            <select id="makhuvuc" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.KHUVUC)
+                                {
+                                    <option value="@i.makhuvuc">@i.makhuvuc - @i.tenkhuvuc</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Mã phòng ban <code class="text-danger">(*)</code></label>
+                            <select id="maphong" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.PHONGBAN)
+                                {
+                                    <option value="@i.maphong">@i.maphong - @i.tenphong</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên người dùng <code class="text-danger">(*)</code></label>
+                            <input name="tennguoidung" type="text" class="form-control" id="tennguoidung" placeholder="Nhập tên người dùng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">User ID</label>
+                            <input name="userid" type="text" class="form-control" id="userid" placeholder="Nhập User ID">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Chức vụ</label>
+                            <input name="chucvu" type="text" class="form-control" id="chucvu" placeholder="Nhập chức vụ người dùng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Email Stada</label>
+                            <input name="email" type="text" class="form-control" id="email" placeholder="Nhập địa chỉ email Stada">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Email Pymepharco</label>
+                            <input name="emailpyme" type="text" class="form-control" id="emailpyme" placeholder="Nhập địa chỉ email Pymepharco">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Số điện thoại</label>
+                            <input name="sdt" type="text" class="form-control" id="sdt" placeholder="Nhập số điện thoại">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Bộ phận yêu cầu</label>
+                            <input name="bpyeucau" type="text" class="form-control" id="bpyeucau" placeholder="Nhập bộ phận yêu cầu">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label font-weight-bold">Ngày giao <code class="text-danger">(*)</code></label>
+                            <input type="text" value="@DateTime.Today.ToString("dd/MM/yyyy")" id="ngaynhan" autocomplete="off" data-mask="99/99/9999" class="form-control datepicker-autoclose" name="end" placeholder="dd/mm/yyyy">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái máy <code class="text-danger">(*)</code></label>
+                            <select id="trangthaimay" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.TRANGTHAIMAY)
+                                {
+                                    <option value="@i.trangthaiid">@i.tentrangthai</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6">
+                        <div class="custom-control custom-switch switch-success mb-3">
+                            <input type="checkbox" class="custom-control-input" id="giaothanhcong">
+                            <label class="custom-control-label  font-weight-bold" for="giaothanhcong">Đã giao hàng</label>
+                        </div>
+                    </div>*@
+                    @*<div class="col-lg-6 xuatkho">
+            <div class="input-group">
+                <input type="text" readonly id="urlimage" name="example-input2-group2" class="form-control" placeholder="Chọn ảnh ...">
+                <span class="input-group-append">
+                    <button data-toggle="modal" data-target=".bd-example-modal-xl1" type="button" class="btn  btn-gradient-primary">Chọn ảnh phiếu giao nhận</button>
+                </span>
+            </div>
+        </div>*@
+                    <div id="editor"></div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label font-weight-bold">Ghi chú</label>
+                            <textarea type="text" id="ghichu" autocomplete="off" class="form-control" placeholder="Nhập ghi chú"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-2">
+                        <button id="btnsubmit" type="button" class="btn btn-gradient-primary">HOÀN TẤT</button>
+                        <button onClick="window.location.reload();" type="button" class="btn btn-gradient-danger">TẠO LẠI</button>
+                    </div>
+                </div>
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div><!--end col-->
+
+</div>
+<!-- /.modal -->
+@section scripts {
+    @*<script src="/Content/assets/plugins/dropify/js/dropify.min.js"></script>
+        <script src="/Content/assets/pages/jquery.form-upload.init.js"></script>*@
+    @*<script>
+        $(document).ready(function () {
+            var filemanager = $("#filemanager").getKendoFileManager();
+
+            filemanager.executeCommand({ command: "TogglePaneCommand", options: { type: "preview" } });
+            filemanager.toolbar.fileManagerDetailsToggle.switchInstance.toggle();
+        })
+    </script>
+    <script>
+        function onOpen(e) {
+            if (e.entry.extension == ".png" || e.entry.extension == ".jpg") {
+                $("#urlimage").val("/content/UserFiles/Folders/" + e.entry.path);
+                $(".bd-example-modal-xl1").modal("toggle");
+            }
+        }
+    </script>*@
+    <script>
+        $(document).ready(function () {
+            $(".xuatkho").hide();
+            $('.datepicker-autoclose').datepicker({
+                todayBtn: "linked",
+                format: 'dd/mm/yyyy',
+                autoclose: true
+                , todayHighlight: true
+            });
+            $("#xuatkho").change(function () {
+                if ($("#xuatkho").val() == 'true') {
+                    $(".xuatkho").show();
+                }
+                else {
+                    $(".xuatkho").hide();
+                }
+            });
+            $("#serialnumber").change(function () {
+                $("#tenmay").val("STVN-" + $("#serialnumber").val());
+            });
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn lưu?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#serialnumber").val() == "" || ($("#xuatkho").val() == 'true' && $("#tennguoidung").val() == "")) {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+                            if ($("#ngaynhan").val() != "") {
+                                var mydate = moment($("#ngaynhan").val(), 'DD/MM/YYYY');
+                                //format that date into a different format
+                                var ngaynhan = moment(mydate).format("MM/DD/YYYY");
+                            }
+                            else {
+                                var ngaynhan = null;
+                            }
+
+                            var data = {
+                                "maloai": $("#maloai").val()
+                                , "makhuvuc": $("#makhuvuc").val()
+                                , "serialnumber": $("#serialnumber").val()
+                                , "xuatkho": $("#xuatkho").val()
+                                , "urlimage": $("#urlimage").val()
+                                , "ghichu": $("#ghichu").val()
+                                , "maphong": ($("#xuatkho").val() == 'true') ? $("#maphong").val() : null
+                                //, "makhuvuc": ($("#xuatkho").val() == 'true') ? $("#makhuvuc").val() : null
+                                , "tennguoidung": ($("#xuatkho").val() == 'true') ? $("#tennguoidung").val() : null
+                                , "chucvu": ($("#xuatkho").val() == 'true') ? $("#chucvu").val() : null
+                                , "emailpyme": ($("#xuatkho").val() == 'true') ? $("#emailpyme").val() : null
+                                , "bpyeucau": ($("#xuatkho").val() == 'true') ? $("#bpyeucau").val() : null
+                                , "sdt": ($("#xuatkho").val() == 'true') ? $("#sdt").val() : null
+                                , "userid": ($("#xuatkho").val() == 'true') ? $("#userid").val() : null
+                                , "ngaynhan": ($("#xuatkho").val() == 'true') ? ngaynhan : null
+                                , "email": ($("#xuatkho").val() == 'true') ? $("#email").val() : null
+                                , "trangthaiid": ($("#xuatkho").val() == 'true') ? $("#trangthaimay").val() : 0
+                            }
+                            $.ajax({
+                                url: '/he-thong/addthietbimoi',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Mã thiết bị <b>' + data.data + '</b><br/><img style="width:150px;" src="' + data.qrcode + '"/>',
+                                            'success'
+                                        )
+                                        $("#serialnumber").val('').trigger('change');
+                                        $("#trangthaimay").val("0");
+                                        $('.selectreset option').prop('selected', function () {
+                                            return this.defaultSelected;
+                                        });
+                                        $('input,textarea').val("");
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $(".select2").select2({
+                width: '100%'
+            });
+        });
+    </script>
+}
+

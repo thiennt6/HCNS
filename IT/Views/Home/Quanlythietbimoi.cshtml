@@ -1,0 +1,1218 @@
+﻿@model IT.Models.ListDataMoi
+@{
+    ViewBag.Title = "Quản lý thiết bị";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+@section styles {
+    <!-- DataTables -->
+    <link href="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="/Content/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="/Content/assets/plugins/dropzone-master/dist/dropzone.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Content/assets/plugins/dropzone-master/dist/dropzone.css" rel="stylesheet" type="text/css" />*@
+    <style>
+        thead input {
+            width: 100%;
+        }
+    </style>
+    @*<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+        <link rel="stylesheet"
+              href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+              type="text/css" />*@
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý thiết bị</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý thiết bị</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+    <div class="col-12 p-0">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Khu vực</label>
+                            <select id="locmakhuvuc" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                @foreach (var i in Model.listkhuvuc)
+                                {
+                                    <option value="@i.makhuvuc">@i.makhuvuc - @i.tenkhuvuc</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Phòng ban - Bộ phận</label>
+                            <select id="locmaphong" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                @foreach (var i in Model.listphongban)
+                                {
+                                    <option value="@i.maphong">@i.maphong - @i.tenphong</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Loại thiết bị</label>
+                            <select id="locloaithietbi" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                @foreach (var i in Model.listloaithietbi)
+                                {
+                                    <option value="@i.maloai">@i.maloai - @i.tenthietbi</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái kho</label>
+                            <select id="locxuatkho" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                <option value=false>Tồn kho</option>
+                                <option value="True">Đã xuất kho</option>
+                                <option value=null>Đang bảo hành</option>
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold mb-3" for="exampleInputEmail1">Ngày giao</label>
+                                <div class="input-group">
+                                    <input id="locngaygiao" type="text" value="" class="form-control" name="dates">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái máy</label>
+                            <select id="loctrangthaimay" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                @foreach (var i in Model.listtrangthaimay)
+                                {
+                                    <option value="@i.trangthaiid">@i.tentrangthai</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12 mt-2">
+                        <button id="btnloc" type="button" class="btn btn-gradient-primary"><i class="fa fa-filter"></i> LỌC</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="col-12 p-0">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title font-weight-bold">TẢI XUỐNG</h4>
+                <div class="text-left">
+                    <ul class="list-inline">
+
+                        <li class="list-inline-item">
+                            <button id="btnexcel" type="button" class="btn btn-gradient-primary waves-effect waves-light" data-animation="bounce"><i class="fa fa-download"></i> EXCEL IN NHÃN</button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button id="btngiaonhanv2" type="button" class="btn btn-gradient-primary waves-effect waves-light" data-animation="bounce"><i class="fa fa-print"></i> IN PHIẾU GIAO NHẬN</button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button id="btntai" type="button" class="btn btn-gradient-primary waves-effect waves-light" data-animation="bounce"><i class="fa fa-download"></i> TẢI EXCEL TOÀN BỘ THIẾT BỊ</button>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-6 pr-0">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title font-weight-bold">XỬ LÝ NHANH</h4>
+                <div class="text-left">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <button id="btndoimaphong" type="button" class="btn btn-gradient-primary waves-effect waves-light" data-animation="bounce"><i class="fa fa-edit"></i> ĐỔI MÃ PHÒNG BAN</button>
+                        </li>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="col-12 p-0">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title font-weight-bold">DANH MỤC THIẾT BỊ</h4>
+                <div id="partialview">
+                    <table id="datatable-buttons" class="table table-striped table-bordered w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:20px;" class="no-sort text-center">
+                                    <div class="checkbox">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input checkthietbi" id="checkall" data-parsley-multiple="groups">
+                                            <label class="custom-control-label" for="checkall"></label>
+                                        </div>
+                                    </div>
+
+                                </th>
+                                <th style="width:20px;">#</th>
+
+                                <th>Mã thiết bị</th>
+                                <th>Computer Name</th>
+                                <th>Người dùng</th>
+                                <th>UserID</th>
+                                <th>Mã khu vực</th>
+                                <th>Mã phòng</th>
+
+
+                                <th>Ngày giao máy</th>
+                                <th>Trạng thái kho</th>
+                                <th class="text-center">Trạng thái máy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var count = 1;
+                                foreach (var i in Model.datathietbi)
+                                {
+                                    <tr>
+                                        <td class="text-center align-middle">
+                                            <div class="checkbox">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" value="@i.mathietbi" class="custom-control-input checkthietbi" id="@("input" + i.mathietbi)" data-parsley-multiple="groups">
+                                                    <label class="custom-control-label" for="@("input" + i.mathietbi)"></label>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="dropdown d-inline-block float-right">
+                                                <a class="nav-link dropdown-toggle arrow-none" id="dLabel5" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v font-20 text-muted"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel5">
+
+                                                    <button class="dropdown-item btnlichsu" data-toggle="modal" data-target="#modellichsu" value="@i.mathietbi">Lịch sử</button>
+                                                    <button class="dropdown-item btnedit" data-xuatkho="@i.xuatkho.ToString().ToLower()" data-toggle="modal" data-target="#modeledit" value="@i.mathietbi">Thay đổi</button>
+                                                    @if (i.urlimage != null)
+                                                    {
+                                                        <button class="dropdown-item btnimg" data-toggle="modal" data-target=".bd-example-modal-xl" value="@i.urlimage">Xem ảnh</button>
+                                                    }
+                                                    <button class="dropdown-item btnxoa" value="@i.mathietbi">Xóa</button>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>@i.mathietbi</td>
+                                        <td>@("STVN-" + i.serialnumber)</td>
+                                        <td>@i.tennguoidung</td>
+                                        <td>@i.userid</td>
+                                        <td>@i.makhuvuc</td>
+                                        <td>@i.maphong</td>
+
+
+                                        <td>@(((i.ngaynhan != null)?((DateTime)i.ngaynhan).ToString("dd/MM/yyyy"):""))</td>
+                                        <td>@((i.xuatkho == false)?"Tồn kho":"Đã xuất kho")</td>
+                                        <td class="text-center">@((i.trangthaiid != null)? i.TBL_TRANGTHAIMAY.tentrangthai : "N/A")</td>
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            }
+                        </tbody>
+                        @*<tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Mã thiết bị</th>
+                                    <th>SN</th>
+                                    <th>Người dùng</th>
+                                    <th>UserID</th>
+                                    <th>Mã khu vực</th>
+                                    <th>Mã phòng</th>
+
+
+                                    <th>Ngày giao máy</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>*@
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+
+</div>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">ẢNH PHIẾU GIAO NHẬN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalimage" src="" class="img-fluid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="modeledit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">THAY ĐỔI THÔNG TIN THIẾT BỊ <b id="mathietbi"></b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Loại thiết bị <code class="text-danger">(*)</code></label>
+                            <select disabled id="maloai" class="select2 form-control mb-3 custom-select" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.listloaithietbi)
+                                {
+                                    <option value="@i.maloai">@i.maloai - @i.tenthietbi</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6">
+            <div class="form-group">
+                <label class="font-weight-bold" for="exampleInputEmail1">Mã thiết bị <code class="text-danger">(*)</code></label>
+                <input type="text" class="form-control" id="tennguoidung" placeholder="Nhập tên người dùng">
+            </div>
+        </div>*@
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold mb-3" for="exampleInputEmail1">Serial Number <code class="text-danger">(*)</code></label>
+                            <select id="serialnumber" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                                <option value="">Chọn số Serial Number</option>
+                                @foreach (var i in Model.listsn)
+                                {
+                                    <option value="@i.SN">@i.SN</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên máy <code class="text-danger">(*)</code></label>
+                            <input readonly type="text" class="form-control" id="tenmay" placeholder="Nhập tên máy">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái kho<code class="text-danger">(*)</code></label>
+                            <select id="xuatkho" class="select2 form-control mb-3 custom-select" style="width: 100%; height:31px;">
+                                <option selected value=false>Tồn kho</option>
+                                <option value=true>Đã xuất kho</option>
+                                <option value=null>Đang bảo hành</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Khu vực <code class="text-danger">(*)</code></label>
+                            <select id="makhuvuc" class="select2 form-control mb-3 custom-select" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.listkhuvuc)
+                                {
+                                    <option value="@i.makhuvuc">@i.makhuvuc - @i.tenkhuvuc</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Mã phòng ban <code class="text-danger">(*)</code></label>
+                            <select id="maphong" class="select2 form-control mb-3 custom-select" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.listphongban)
+                                {
+                                    <option value="@i.maphong">@i.maphong - @i.tenphong</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên người dùng <code class="text-danger">(*)</code></label>
+                            <input name="tennguoidung" type="text" class="form-control" id="tennguoidung" placeholder="Nhập tên người dùng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">User ID</label>
+                            <input name="userid" type="text" class="form-control" id="userid" placeholder="Nhập User ID">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Chức vụ</label>
+                            <input name="chucvu" type="text" class="form-control" id="chucvu" placeholder="Nhập chức vụ người dùng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Email Stada</label>
+                            <input name="email" type="text" class="form-control" id="email" placeholder="Nhập địa chỉ email Stada">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Email Pymepharco</label>
+                            <input name="emailpyme" type="text" class="form-control" id="emailpyme" placeholder="Nhập địa chỉ email Pymepharco">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Số điện thoại</label>
+                            <input name="sdt" type="text" class="form-control" id="sdt" placeholder="Nhập số điện thoại">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Bộ phận yêu cầu</label>
+                            <input name="bpyeucau" type="text" class="form-control" id="bpyeucau" placeholder="Nhập bộ phận yêu cầu">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label font-weight-bold">Ngày giao <code class="text-danger">(*)</code></label>
+                            <input type="text" id="ngaynhan" autocomplete="off" data-mask="99/99/9999" class="form-control datepicker-autoclose" name="end" placeholder="dd/mm/yyyy">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 xuatkho">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Trạng thái máy <code class="text-danger">(*)</code></label>
+                            <select id="trangthaimay" class="select2 form-control mb-3 custom-select selectreset" style="width: 100%; height:31px;">
+                                @foreach (var i in Model.listtrangthaimay)
+                                {
+                                    <option value="@i.trangthaiid">@i.tentrangthai</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <label class="font-weight-bold">Phiếu giao nhận (PDF hoặc IMAGE)</label>
+                        <ul id="tailieulink"></ul>
+                        @using (Html.BeginForm("FileUpload", "Home", FormMethod.Post, new { @class = "dropzone p-0", id = "dropzone-form" }))
+                        {
+                            <div class="fallback">
+                                <input name="FilesUpload" id="my-dropzone" type="file" multiple />
+                            </div>
+                            <input hidden readonly name="mathietbi" type="text" id="mathietbifile" />
+                        }
+                    </div><!--end col-->
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label font-weight-bold">Ghi chú</label>
+                            <textarea type="text" id="ghichu" autocomplete="off" class="form-control" placeholder="Nhập ghi chú"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label font-weight-bold text-danger">Lưu ý : Nếu chỉ cần upload file thì chọn UPLOAD FILE , không cần chọn HOÀN TẤT</label>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient-primary waves-effect" id="btnupload">UPLOAD FILE</button>
+                <button type="button" class="btn btn-gradient-success waves-effect" id="btnsubmit">HOÀN TẤT</button>
+                <button type="button" class="btn btn-gradient-danger waves-effect" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">QR CODE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalimage" src="" class="img-fluid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="modellichsu" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">LỊCH SỬ THIẾT BỊ <b id="mathietbi1"></b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body" id="partiallichsu">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- /.modal -->
+<!-- /.modal -->
+@section scripts {
+
+    <!-- Required datatable js -->
+    <script src="/Content/assets/plugins/dropify/js/dropify.min.js"></script>
+    <script src="/Content/assets/pages/jquery.form-upload.init.js"></script>
+
+    <!-- Buttons examples -->
+    <!-- Required datatable js -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <script src="/Content/assets/plugins/dropzone-master/dist/dropzone.js"></script>
+    @*<script src="/Content/assets/pages/jquery.datatable.init.js?version8"></script>*@
+    @*<script>
+            $(document).ready(function () {
+                var filemanager = $("#filemanager").getKendoFileManager();
+
+                filemanager.executeCommand({ command: "TogglePaneCommand", options: { type: "preview" } });
+                filemanager.toolbar.fileManagerDetailsToggle.switchInstance.toggle();
+            })
+        </script>
+        <script>
+            function onOpen(e) {
+                if (e.entry.extension == ".png" || e.entry.extension == ".jpg") {
+                    $("#urlimage").val("/content/UserFiles/Folders/" + e.entry.path);
+                    $(".bd-example-modal-xl1").modal("toggle");
+                }
+            }
+        </script>*@
+    @*<script>
+            // Dropzone has been added as a global variable.
+            const dropzone = new Dropzone("div.my-dropzone", { url: "/file/post" });
+        </script>*@
+    <script type="text/javascript">
+        Dropzone.options.dropzoneForm = {
+            paramName: "file",
+            maxFilesize: 25,
+            maxFiles: 10,
+            parallelUploads: 10,
+            acceptedFiles: ".png,.docs,.xlsx,.xls,.doc,.xml,.png,.pdf,.zip,.rar",
+            dictMaxFilesExceeded: "Custom max files msg",
+            autoProcessQueue: false,
+            init: function () {
+                var submitButton = document.querySelector("#btnupload");
+                var myDropzone = this; //closure
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue();
+
+                  
+                });
+                this.on("queuecomplete", function (file) {
+                    $.ajax({
+                        url: '/he-thong/PartialFile',
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{mathietbi: ' + JSON.stringify($("#mathietbifile").val()) + '}',
+                        success: function (data) {
+                            Dropzone.forElement(".dropzone").removeAllFiles(true);
+
+                            $("#tailieulink").html(data);
+
+                        },
+                        error: function (request, status, error) {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Không thể kết nối với hệ thống',
+                                'error'
+                            )
+                        },
+                        timeout: 5000,
+                    });
+                });
+            }
+        };
+        Dropzone.autoDiscover = false;
+        $(".dropzone").dropzone({
+            addRemoveLinks: true,
+            removedfile: function (file) {
+                var name = file.name;
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+    </script>
+    <script>
+          function FileDelete(name, mathietbi) {
+            Swal.fire({
+                title: 'Bạn chắc chắn muốn thực hiện thao tác này?',
+                text: "File bị xóa sẽ không thể khôi phục !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Hủy',
+                confirmButtonText: 'Chắc chắn'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("FileDelete", "Home")',
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{name: ' + JSON.stringify(name) + ', mathietbi:' + JSON.stringify(mathietbi) + '}',
+                        success: function (data) {
+                            if (data == 1) {
+                                Swal.fire(
+                                    'Xóa thành công',
+                                    '',
+                                    'success'
+                                )
+                                $("[data-name='" + name + "']").closest('li').remove();
+                            }
+                            else {
+                                Swal.fire(
+                                    'Vui lòng thử lại',
+                                    'File không tồn tại',
+                                    'warning'
+                                )
+                              
+                            }
+                        },
+                        error: function (request, status, error) {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Không thể kết nối với hệ thống',
+                                'error'
+                            )
+                        },
+                        timeout: 5000,
+                    });
+                }
+            })
+        }
+        $(document).ready(function () {
+            $('#datatable-buttons thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#datatable-buttons thead');
+            //$('#datatable-buttons tfoot th').each(function () {
+            //    var title = $(this).text();
+            //    if (title != "") {
+            //        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            //    }
+            //});
+            $(document).on('hidden.bs.modal', '.modal',
+                () => $('.modal:visible').length && $(document.body).addClass('modal-open'));
+            $('input[name="dates"]').daterangepicker({
+                startDate: '01/01/@DateTime.Today.Year', endDate: '@DateTime.Today.ToString("dd/MM/yyyy")',
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                "alwaysShowCalendars": true,
+            });
+            $('.open_picker').show();
+            $(".xuatkho").hide();
+            $(".select2").select2({
+                width: '100%'
+            });
+            $("#btnexcel").click(function () {
+                if ($('.checkthietbi:checked').length == 0) {
+                    Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Bạn chưa tick thiết bị nào',
+                        'warning'
+                    )
+                }
+                else {
+
+                    var data = [];
+                    var oTbl = $('#datatable-buttons').DataTable()
+                    var rowcollection = oTbl.$(".checkthietbi:checked", { "page": "all" });
+                    rowcollection.each(function (index, elem) {
+                        data.push($(elem).val());
+                    });
+                    window.open('/he-thong/in-nhan?mathietbi=' + data.toString());
+
+                }
+            });
+            $("#btngiaonhan").click(function () {
+                if ($('.checkthietbi:checked').length == 0) {
+                    Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Bạn chưa tick thiết bị nào',
+                        'warning'
+                    )
+                }
+                //else if ($("#formid").val() == null || $("#formid").val() == "")
+                //{
+                //    Swal.fire(
+                //        'Vui lòng thử lại !',
+                //        'Bạn chưa điền Form ID',
+                //        'warning'
+                //    )
+                //}
+                else {
+
+                    var data = [];
+                    var oTbl = $('#datatable-buttons').DataTable()
+                    var rowcollection = oTbl.$(".checkthietbi:checked", { "page": "all" });
+                    rowcollection.each(function (index, elem) {
+                        data.push($(elem).val());
+                    });
+                    window.open('/he-thong/phieu-giao-nhan?mathietbi=' + data.toString());
+
+                }
+            });
+            $("#btntai").click(function () {
+                window.open('/he-thong/tai-excel-thiet-bi');
+            });
+            $("#btngiaonhanv2").click(function () {
+                if ($('.checkthietbi:checked').length == 0) {
+                    Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Bạn chưa tick thiết bị nào',
+                        'warning'
+                    )
+                }
+                //else if ($("#formid").val() == null || $("#formid").val() == "") {
+                //    Swal.fire(
+                //        'Vui lòng thử lại !',
+                //        'Bạn chưa điền Form ID',
+                //        'warning'
+                //    )
+                //}
+                else {
+
+                    var data = [];
+                    var oTbl = $('#datatable-buttons').DataTable()
+                    var rowcollection = oTbl.$(".checkthietbi:checked", { "page": "all" });
+                    rowcollection.each(function (index, elem) {
+                        data.push($(elem).val());
+                    });
+                    window.open('/he-thong/phieu-giao-nhan-v2?mathietbi=' + data.toString());
+
+                }
+            });
+            $("#xuatkho").change(function () {
+
+                if ($("#xuatkho").val() == 'true') {
+                    $(".xuatkho").show();
+                }
+                else {
+                    $(".xuatkho").hide();
+                }
+
+            });
+            $("#serialnumber").change(function () {
+                $("#tenmay").val("STVN-" + $("#serialnumber").val());
+            });
+            $("#partialview").on("change", "#checkall", function () {
+                $('.checkthietbi').prop('checked', $(this).prop("checked"));
+            });
+            $('.datepicker-autoclose').datepicker({
+                todayBtn: "linked",
+                format: 'dd/mm/yyyy',
+                autoclose: true
+                , todayHighlight: true
+            });
+            var table = $('#datatable-buttons').DataTable({
+                "iDisplayLength": 50,
+                "scrollX": true,
+                orderCellsTop: true,
+                fixedHeader: true,
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+
+                initComplete: function () {
+                    var api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
+            });
+            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            $("#btnloc").click(function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Partialthietbimoi", "Home")",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: '{listmaphong: ' + JSON.stringify($("#locmaphong").val()) + ', listloaithietbi: ' + JSON.stringify($("#locloaithietbi").val()) + ', listmakhuvuc: ' + JSON.stringify($("#locmakhuvuc").val()) + ', locxuatkho: ' + JSON.stringify($("#locxuatkho").val()) + ', loctrangthaimay: ' + JSON.stringify($("#loctrangthaimay").val()) + '}',
+                        error: function () {
+                            Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Không thể kết nối với hệ thống',
+                        'error'
+                      )
+                        },
+                        success: function (data) {
+                            $("#partialview").html(data);
+                            var table = $('#datatable-buttons').DataTable({
+                                "iDisplayLength": 50,
+                                "scrollX": true,
+                                orderCellsTop: true,
+                                fixedHeader: true,
+                                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+
+                                initComplete: function () {
+                                    var api = this.api();
+
+                                    // For each column
+                                    api
+                                        .columns()
+                                        .eq(0)
+                                        .each(function (colIdx) {
+                                            // Set the header cell to contain the input element
+                                            var cell = $('.filters th').eq(
+                                                $(api.column(colIdx).header()).index()
+                                            );
+                                            var title = $(cell).text();
+                                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                                            // On every keypress in this input
+                                            $(
+                                                'input',
+                                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                                            )
+                                                .off('keyup change')
+                                                .on('change', function (e) {
+                                                    // Get the search value
+                                                    $(this).attr('title', $(this).val());
+                                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                                    var cursorPosition = this.selectionStart;
+                                                    // Search the column for that value
+                                                    api
+                                                        .column(colIdx)
+                                                        .search(
+                                                            this.value != ''
+                                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                                : '',
+                                                            this.value != '',
+                                                            this.value == ''
+                                                        )
+                                                        .draw();
+                                                })
+                                                .on('keyup', function (e) {
+                                                    e.stopPropagation();
+
+                                                    $(this).trigger('change');
+                                                    $(this)
+                                                        .focus()[0]
+                                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                                });
+                                        });
+                                },
+                            });
+                            table.buttons().container()
+                          .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                        },
+                        timeout: 5000,
+                    });
+
+
+            });
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn lưu thay đổi này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#serialnumber").val() == "" || ($("#xuatkho").val() == 'true' && $("#tennguoidung").val() == "")) {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+                            if ($("#ngaynhan").val() != "") {
+                                var mydate = moment($("#ngaynhan").val(), 'DD/MM/YYYY');
+                                //format that date into a different format
+                                var ngaynhan = moment(mydate).format("MM/DD/YYYY");
+                            }
+                            else {
+                                var ngaynhan = null;
+                            }
+                            var data = {
+                                "mathietbi": $("#mathietbi").text()
+                                ,"maloai": $("#maloai").val()
+                                , "serialnumber": $("#serialnumber").val()
+                                , "xuatkho": $("#xuatkho").val()
+                                , "urlimage": $("#urlimage").val()
+                                , "ghichu": $("#ghichu").val()
+                                , "maphong": ($("#xuatkho").val() == 'true') ? $("#maphong").val() : null
+                                , "makhuvuc": $("#makhuvuc").val()
+                                , "tennguoidung": ($("#xuatkho").val() == 'true') ? $("#tennguoidung").val() : null
+                                , "chucvu": ($("#xuatkho").val() == 'true') ? $("#chucvu").val() : null
+                                , "emailpyme": ($("#xuatkho").val() == 'true') ? $("#emailpyme").val() : null
+                                , "bpyeucau": ($("#xuatkho").val() == 'true') ? $("#bpyeucau").val() : null
+                                , "sdt": ($("#xuatkho").val() == 'true') ? $("#sdt").val() : null
+                                , "userid": ($("#xuatkho").val() == 'true') ? $("#userid").val() : null
+                                , "ngaynhan": ($("#xuatkho").val() == 'true') ? ngaynhan : null
+                                , "email": ($("#xuatkho").val() == 'true') ? $("#email").val() : null
+                                , "trangthaiid": ($("#xuatkho").val() == 'true') ? $("#trangthaimay").val() : 0
+                            }
+                            $.ajax({
+                                url: '/he-thong/editthietbimoi',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Đã cập nhật mã thiết bị <b>' + data.data + '</b><br/><img style="width:150px;" src="' + data.qrcode + '"/>',
+                                            'success'
+                                        )
+
+                                        $("#modeledit").modal("toggle")
+                                        $('.selectreset option').prop('selected', function () {
+                                            return this.defaultSelected;
+                                        });
+                                        $('input,textarea').val("");
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("Partialthietbimoi", "Home")",
+                                            datatype: 'json',
+                                            contentType: "application/json",
+
+                                            error: function () {
+                                            Swal.fire(
+                                                'Vui lòng thử lại !',
+                                                'Không thể kết nối với hệ thống',
+                                                'error'
+                                            )
+                                                },
+                                            success: function (data) {
+                                            $("#partialview").html(data);
+                                                var table = $('#datatable-buttons').DataTable({
+                                                    "iDisplayLength": 50,
+                                                    "scrollX": true,
+                                                    orderCellsTop: true,
+                                                    fixedHeader: true,
+                                                    buttons: ['copy', 'excel', 'pdf', 'colvis'],
+
+                                                    initComplete: function () {
+                                                        var api = this.api();
+
+                                                        // For each column
+                                                        api
+                                                            .columns()
+                                                            .eq(0)
+                                                            .each(function (colIdx) {
+                                                                // Set the header cell to contain the input element
+                                                                var cell = $('.filters th').eq(
+                                                                    $(api.column(colIdx).header()).index()
+                                                                );
+                                                                var title = $(cell).text();
+                                                                $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                                                                // On every keypress in this input
+                                                                $(
+                                                                    'input',
+                                                                    $('.filters th').eq($(api.column(colIdx).header()).index())
+                                                                )
+                                                                    .off('keyup change')
+                                                                    .on('change', function (e) {
+                                                                        // Get the search value
+                                                                        $(this).attr('title', $(this).val());
+                                                                        var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                                                        var cursorPosition = this.selectionStart;
+                                                                        // Search the column for that value
+                                                                        api
+                                                                            .column(colIdx)
+                                                                            .search(
+                                                                                this.value != ''
+                                                                                    ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                                                    : '',
+                                                                                this.value != '',
+                                                                                this.value == ''
+                                                                            )
+                                                                            .draw();
+                                                                    })
+                                                                    .on('keyup', function (e) {
+                                                                        e.stopPropagation();
+
+                                                                        $(this).trigger('change');
+                                                                        $(this)
+                                                                            .focus()[0]
+                                                                            .setSelectionRange(cursorPosition, cursorPosition);
+                                                                    });
+                                                            });
+                                                    },
+                                                });
+                                                table.buttons().container()
+                                                    .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                        },
+                                        timeout: 5000,
+                                    });
+
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $("#partialview").on("click", ".btnimg", function () {
+                $("#modalimage").attr("src", $(this).val());
+            });
+            $("#partialview").on("click", ".btnlichsu", function () {
+                var hang = $(this);
+                var id = $(this).val();
+                $("#mathietbi1").text(id);
+                $.ajax({
+                    url: '/he-thong/Partiallichsuthietbimoi',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{mathietbi: ' + JSON.stringify(id) + '}',
+                    success: function (data) {
+                        $("#partiallichsu").html(data);
+                        var tablelichsu = $('#datatable-buttons1').dataTable({
+                            "scrollX": true
+                        });
+                        //setTimeout(function () {
+                        //    tablelichsu.columns.adjust();
+                        //}, 500);
+
+                    },
+                    error: function (request, status, error) {
+                        Swal.fire(
+                            'Vui lòng thử lại !',
+                            'Không thể kết nối với hệ thống',
+                            'error'
+                        )
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#partialview").on("click", ".btnedit", function () {
+                var hang = $(this);
+                var id = $(this).val();
+                $("#mathietbifile").val(id);
+                $("#xuatkho").val(hang.attr('data-xuatkho')).trigger('change');
+                //alert(hang.attr('data-xuatkho'));
+                if (hang.attr('data-xuatkho') == 'true') {
+                    $(".xuatkho").show();
+                }
+                else {
+                    $(".xuatkho").hide();
+                }
+                $.ajax({
+                    url: '/he-thong/getthietbimoi',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{mathietbi: ' + JSON.stringify(id) + '}',
+                    success: function (data) {
+                        $("#mathietbi").text(id);
+                        $("#serialnumber").val(data.thietbi.serialnumber).trigger('change');
+                        $("#maloai").val(data.thietbi.maloai).trigger('change');
+                        $("#tenmay").val(data.thietbi.tenmay);
+                        $("#makhuvuc").val(data.thietbi.makhuvuc).trigger('change');
+                        $("#tennguoidung").val(data.thietbi.tennguoidung);
+                        $("#chucvu").val(data.thietbi.chucvu);
+                        $("#emailpyme").val(data.thietbi.emailpyme);
+                        $("#bpyeucau").val(data.thietbi.bpyeucau);
+                        $("#sdt").val(data.thietbi.sdt);
+                        $("#urlimage").val(data.thietbi.urlimage);
+                        $("#userid").val(data.thietbi.userid);
+                        $("#maphong").val(data.thietbi.maphong).trigger('change');
+                        $("#email").val(data.thietbi.email);
+                        $("#trangthaimay").val(data.thietbi.trangthaiid).trigger('change');
+                        if (data.thietbi.ngaynhan != "" && data.thietbi.ngaynhan != null) {
+                            var milli1 = data.thietbi.ngaynhan.replace(/\/Date\((-?\d+)\)\//, '$1');
+                            var d1 = new Date(parseInt(milli1));
+                            var dformat1 = ("00" + d1.getDate()).slice(-2) + "/" + ("00" + (d1.getMonth() + 1)).slice(-2) + "/" + d1.getFullYear();
+                            $("#ngaynhan").datepicker("setDate", dformat1);
+                        }
+                        else {
+                            $("#ngaynhan").datepicker("setDate", "");
+                        }
+                        $("#tailieulink").empty();
+                        Dropzone.forElement(".dropzone").removeAllFiles(true);
+                        if (data.files != null) {
+                            for (var i = 0; i < data.files.length; i++) {
+                                $("#tailieulink").append('<li><a target="_blank" href="/he-thong/FileDownload?name=' + data.files[i] + '&mathietbi=' + id + '">' + data.files[i] + '</a> - (<a class="text-danger"  data-name="' + data.files[i] + '" href="javascript:FileDelete(\'' + data.files[i] + '\',\'' + id + '\');">Xóa</a>)</li>')
+                            }
+                        }
+
+                        $("#ghichu").val(data.thietbi.ghichu);
+                    },
+                    error: function (request, status, error) {
+                        Swal.fire(
+       'Vui lòng thử lại !',
+       'Không thể kết nối với hệ thống',
+       'error'
+     )
+                    },
+                    timeout: 5000,
+                });
+            });
+            $("#partialview").on("click", ".btnmsconfig", function () {
+
+                $("#modalimage").attr("src", $(this).val());
+            });
+            $("#partialview").on("click", ".btnxoa", function () {
+                var hang = $(this);
+                var id = $(this).val();
+                swal.fire({
+                    title: 'Bạn có chắc chắn xóa thiết bị ' + id + '?',
+                    text: "Tất cả các dữ liệu liên quan tới mã thiết bị này đều bị xóa !",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/xoathietbimoi',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{mathietbi: ' + JSON.stringify(id) + '}',
+                            success: function (data) {
+                                hang.closest('tr').remove();
+                                Swal.fire(
+        'Thành công',
+        '',
+        'success'
+      )
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+               'Vui lòng thử lại !',
+               'Không thể kết nối với hệ thống',
+               'error'
+             )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                 result.dismiss === Swal.DismissReason.cancel
+               ) {
+
+                    }
+                })
+            });
+        });
+    </script>
+}

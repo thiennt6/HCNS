@@ -1,0 +1,6 @@
+﻿
+@foreach (var i in Model)
+{
+    <li><a target="_blank" href="/he-thong/FileDownload?name=@i&amp;mathietbi=@ViewBag.mathietbi">@i</a> - (<a class="text-danger" data-name="@i" href="javascript:FileDelete('@i','@ViewBag.mathietbi');">Xóa</a>)</li>
+
+}

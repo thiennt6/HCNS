@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "CKFinder";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý ảnh</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý ảnh</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row justify-content-center">
+    <div id="ckfinder-widget"></div>
+</div>
+
+
+@section scripts {
+
+    <script>
+        CKFinder.widget('ckfinder-widget', {
+            width: '100%',
+            height: 700
+        });
+    </script>
+}
+

@@ -1,0 +1,840 @@
+﻿@model IT.Models.Listquanlyngaynghi
+@{
+    ViewBag.Title = "Lịch của tôi";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+@section styles {
+    <!--calendar css-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.min.css" rel="stylesheet" />
+    <!-- DataTables -->
+    <link href="/Content/assets/plugins/jsgrid/jsgrid.min.css" rel="stylesheet">
+    <link href="/Content/assets/plugins/jsgrid/jsgrid-theme.min.css" rel="stylesheet">
+
+    <link href="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="/Content/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Datarangepicker -->
+    <link href="/Content/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <style>
+        .report-card h3 {
+            color: #50649c !important;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Lịch nghỉ phép</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Lịch nghỉ phép</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div id='calendar'></div>
+                <div style="clear:both"></div>
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div><!--end col-->
+</div>
+
+
+<div class="modal fade" id="modaladd" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">ĐƠN NGHỈ PHÉP</h5>
+                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p class="text-muted mb-3">
+                                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                                </p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Loại phép <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="loaiphep">
+                                                @foreach (var item in Model.LOAIPHEP)
+                                                {
+                                                    <option value="@item.loaiphep">@item.tenphep</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Lý do nghỉ <code class="text-danger">(*)</code></label>
+                                            <textarea id="lydo" class="form-control" maxlength="225" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Từ ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="tungay">
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiTuNgay">
+                                                <option value="1">Sáng</option>
+                                                <option value="2">Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" id="labeldenngay">Đến ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="denngay">
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiDenNgay" value="2">
+                                                <option value="1">Sáng</option>
+                                                <option value="2" selected>Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Số ngày nghỉ <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="number" id="songaynghi" value="1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người duyệt <code class="text-danger">(*)</code></label>
+                                            <select id="nguoiduyet" class="select2 mb-3 select2" style="width: 100%" data-placeholder="Chọn ...">
+                                                @foreach (var i in Model.NGUOIDUNG)
+                                                {
+                                                    <option value="@i.taikhoan">@i.taikhoan - @i.hovaten</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người nhận thông tin <code class="text-danger">(*)</code></label>
+                                            <select id="nguoinhan" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                                @foreach (var i in Model.NGUOIDUNG)
+                                                {
+                                                    <option value="@i.taikhoan">@i.taikhoan - @i.hovaten</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Ghi chú</label>
+                                            <textarea id="ghichu" class="form-control" maxlength="225" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient-primary waves-effect" id="btnluutao">HOÀN TẤT</button>
+                <button type="button" class="btn btn-gradient-danger waves-effect" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog modal-xl -->
+</div><!-- /.modal fade -->
+
+<div class="modal fade" id="modalview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đơn nghỉ phép <span class="text-danger" id="Id"></span></h5>
+                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p class="text-muted mb-3">
+                                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                                </p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Loại nghỉ phép <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="loaiphep" disabled>
+                                                @foreach (var item in Model.LOAIPHEP)
+                                                {
+                                                    <option value="@item.loaiphep">@item.tenphep</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Lý do nghỉ <code class="text-danger">(*)</code></label>
+                                            <textarea id="lydo" class="form-control" maxlength="225" rows="1" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Từ ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="tungay" disabled>
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiTuNgay" disabled>
+                                                <option value="1">Sáng</option>
+                                                <option value="2">Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" id="labeldenngay">Đến ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="denngay" disabled>
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiDenNgay" value="2" disabled>
+                                                <option value="1">Sáng</option>
+                                                <option value="2" selected>Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Số ngày nghỉ <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="number" id="songaynghi" value="1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người duyệt <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="text" id="nguoiduyet" value=@Model.NguoiDuyet readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Ghi chú</label>
+                                            <textarea id="ghichu" class="form-control" maxlength="225" rows="3" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient-danger waves-effect" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog modal-xl -->
+</div><!-- /.modal fade -->
+
+<div class="modal fade" id="modaledit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">THAY ĐỔI ĐƠN NGHỈ PHÉP <span style="display:none;" class="text-danger" id="Idedit"></span></h5>
+                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p class="text-muted mb-3">
+                                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                                </p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Loại phép <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="loaiphepedit">
+                                                @foreach (var item in Model.LOAIPHEP)
+                                                {
+                                                    <option value="@item.loaiphep">@item.tenphep</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Lý do nghỉ <code class="text-danger">(*)</code></label>
+                                            <textarea id="lydoedit" class="form-control" maxlength="225" rows="1" placeholder="Nhập lý do nghỉ phép"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Từ ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="tungayedit">
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiTuNgayedit">
+                                                <option value="1">Sáng</option>
+                                                <option value="2">Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" id="labeldenngay">Đến ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="denngayedit">
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiDenNgayedit" value="2">
+                                                <option value="1">Sáng</option>
+                                                <option value="2" selected>Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Số ngày nghỉ <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="number" id="songaynghiedit" value="1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người duyệt <code class="text-danger">(*)</code></label>
+                                            <select id="nguoiduyetedit" class="select2 mb-3" style="width: 100%" data-placeholder="Chọn ...">
+                                                @foreach (var i in Model.NGUOIDUNG)
+                                                {
+                                                    <option value="@i.taikhoan">@i.taikhoan - @i.hovaten</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người nhận thông tin</label>
+                                            <select id="nguoinhanedit" class="select2 mb-3 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Chọn ...">
+                                                @foreach (var i in Model.NGUOIDUNG)
+                                                {
+                                                    <option value="@i.taikhoan">@i.taikhoan - @i.hovaten</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Ghi chú</label>
+                                            <textarea id="ghichuedit" class="form-control" maxlength="225" rows="3" placeholder="Nhập ghi chú"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--<div class="" style="overflow:auto;white-space: nowrap;max-width:100%;display: inline-block;padding: 0px 15px;">
+                                </div>-->
+                                <!--end row-->
+
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+
+
+                    </div>
+                </div>
+            </div><!--end col-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient-primary waves-effect" id="btnedit">HOÀN TẤT</button>
+                <button type="button" class="btn btn-gradient-danger waves-effect" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div><!--end row-->
+
+    </div><!-- /.modal-body -->
+
+</div><!-- /.modal-content -->
+
+@section scripts {
+
+    <!-- jQuery  -->
+    <script src="https://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.min.js"></script>
+    <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
+
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Datatable examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+
+
+    <script src="/Content/assets/plugins/moment/moment.js"></script>
+    <script src="/Content/assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".select2").select2({
+                width: '100%'
+            });
+            $('input[name="date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                isInvalidDate: function (date) {
+                    if (date.day() == 0 || date.day() == 6)
+                        return true;
+                    return false;
+                }
+            });
+            var array = @Html.Raw(Json.Encode(ViewBag.data));
+            var dataevent = [];
+            for (var i = 0; i < array.length; i++) {
+                var TuNgay = moment(new Date(Number(array[i].tungay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('YYYY-MM-DD');
+                var DenNgay = moment(new Date(Number(array[i].denngay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('YYYY-MM-DD');
+                var title = '';
+                var color = '';
+                var textColor = '';
+                var textTuNgay = '';
+                var textDenNgay = '';
+                if (array[i].buoitungay == 1) {
+                    textTuNgay = "7h"
+                } else {
+                    textTuNgay = "13h"
+                };
+                if (array[i].buoidenngay == 1) {
+                    textDenNgay = "7h"
+                } else {
+                    textDenNgay = "13h"
+                };
+                if (array[i].loaiphep == 1) {
+                    title = 'Phép Năm'
+                } else if (array[i].loaiphep == 2)
+                {
+                    title = 'Phép gia cảnh'
+                } else if (array[i].loaiphep == 2)
+                {
+                    title = 'Phép gia cảnh'
+                } else if (array[i].loaiphep == 2)
+                {
+                    title = 'Phép gia cảnh'
+                } else if (array[i].loaiphep == 2)
+                {
+                    title = 'Phép gia cảnh'
+                } else if (array[i].loaiphep == 2)
+                {
+                    title = 'Phép gia cảnh'
+                } else
+                {
+                    title = 'Phép gia cảnh'
+                };
+                if (array[i].trangthai == 1) {
+                    color = 'rgba(255, 184, 34, 0.15) !important';
+                    textColor = "#ffb822 !important";
+                } else {
+                    color = 'rgba(30, 202, 184, 0.15) !important';
+                    textColor = "#1ecab8 !important";
+                }
+                dataevent.push({
+                    title: title
+                    , start: TuNgay
+                    , end: DenNgay
+                    , allDay: true
+                    , color: color
+                    , textColor: textColor
+                    , description: "Nghỉ từ " + textTuNgay + " ngày " + moment(TuNgay).format("DD/MM/YYYY") + " tới " + textDenNgay + " ngày " + moment(DenNgay).format("DD/MM/YYYY")
+                    , Id: array[i].Id
+                    , trangthai: array[i].trangthai
+                });
+            }
+            $('#btnedit').click(function () {
+                if ($("#loainghiphepedit").val() == "" || $("#nguoiduyetedit").val() == "" || $("#tungayedit").val() == "" || $("#denngayedit").val() == "" || $("#lydoedit").val() == "") {
+                    Swal.fire(
+                        'Không thành công',
+                        'Vui lòng điền đầy đủ thông tin',
+                        'warning'
+                    )
+                }
+                else {
+                    var dataz = {};
+                    dataz["Id"] = $("#Idedit").text();
+                    dataz["loaiphep"] = $("#loaiphepedit").val();
+                    dataz["tungay"] = moment($("#tungayedit").val(), "DD/MM/YYYY").format('YYYY-MM-DD');
+                    dataz["buoitungay"] = $("#buoiTuNgayedit").val();
+                    dataz["denngay"] = moment($("#denngayedit").val(), "DD/MM/YYYY").format('YYYY-MM-DD');
+                    dataz["buoidenngay"] = $("#buoiDenNgayedit").val();
+                    dataz["songaynghi"] = Number($('#songaynghiedit').val());
+                    dataz["lydo"] = $('#lydoedit').val();
+                    dataz["ghichu"] = $('#ghichuedit').val();
+                    dataz["nguoiduyet"] = $('#nguoiduyetedit').val();
+                    console.log(dataz);
+                    $.ajax({
+                        url: '/he-thong/editngaynghi',
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: JSON.stringify(dataz),
+                        success: function (data) {
+                            $('#modaladd').modal('hide');
+                            if (data == 1) {
+                                //$.ajax({
+                                //    type: "post",
+                                //    url: '/he-thong/Partialquanlydanhsachngaynghi',
+                                //    error: function () {
+                                //        swal.fire(
+                                //            'Vui lòng thử lại !',
+                                //            'Không thể kết nối với hệ thống',
+                                //            'error'
+                                //        )
+                                //    },
+                                //    success: function (data) {
+                                //        $("#Viewtable").html(data);
+                                //        var table = $('#datatable-buttons').DataTable({
+                                //            "scrollX": true,
+                                //            lengthChange: false,
+                                //            buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                //        });
+                                //        table.buttons().container()
+                                //            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                //    },
+                                //    timeout: 5000,
+                                //});
+                                Swal.fire(
+                                    'Thành công!',
+                                    'Ngày nghỉ đã được cập nhập thành công.',
+                                    'success'
+                                )
+                                $("#modaledit").modal("toggle")
+                            }
+                            else {
+                                swal.fire(
+                                    'Không thành công!',
+                                    'Không thành công vui lòng thử lại.',
+                                    'danger'
+                                )
+                            }
+                        },
+                        error: function (request, status, error) {
+                            Swal.fire(
+                                'Kết nối không thành công',
+                                'Vui lòng kiểm tra lại kết nối Internet',
+                                'danger'
+                            )
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $('#btnluutao').click(function () {
+                if ($("#loainghiphep").val() == "" || $("#nguoiduyet").val() == "" || $("#tungay").val() == "" || $("#denngay").val() == "" || $("#lydo").val() == "") {
+                    Swal.fire(
+                        'Không thành công',
+                        'Vui lòng điền đầy đủ thông tin',
+                        'warning'
+                    )
+                } else if (Number($('#songaynghi').val()) < 0) {
+                    swal.fire(
+                        'Lỗi!',
+                        'Số lượng ngày nghỉ không được nhỏ hơn 0. Mời bạn chọn lại',
+                        'error'
+                    )
+                }
+                else {
+                    var dataz = {};
+                    dataz["loaiphep"] = $("#loaiphep").val();
+                    dataz["tungay"] = moment($("#tungay").val(), "DD/MM/YYYY").format('YYYY-MM-DD');
+                    dataz["buoitungay"] = $("#buoiTuNgay").val();
+                    dataz["denngay"] = moment($("#denngay").val(), "DD/MM/YYYY").format('YYYY-MM-DD');
+                    dataz["buoidenngay"] = $("#buoiDenNgay").val();
+                    dataz["songaynghi"] = Number($('#songaynghi').val());
+                    dataz["lydo"] = $('#lydo').val();
+                    dataz["ghichu"] = $('#ghichu').val();
+                    dataz["nguoiduyet"] = $('#nguoiduyet').val();
+                    $.ajax({
+                        url: '/he-thong/addngaynghi',
+                        type: "POST",
+                        datatype: 'json',
+                        contentType: "application/json",
+                        data: JSON.stringify(dataz),
+                        success: function (data) {
+                            $('#modaladd').modal('hide');
+                            if (data == 1) {
+                                //$.ajax({
+                                //    type: "post",
+                                //    url: '/he-thong/Partialquanlydanhsachngaynghi',
+                                //    error: function () {
+                                //        swal.fire(
+                                //            'vui lòng thử lại !',
+                                //            'không thể kết nối với hệ thống',
+                                //            'error'
+                                //        )
+                                //    },
+                                //    success: function (data) {
+                                //        $("#Viewtable").html(data);
+                                //        var table = $('#datatable-buttons').DataTable({
+                                //            "scrollX": true,
+                                //            lengthChange: false,
+                                //            buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                //        });
+                                //        table.buttons().container()
+                                //            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                //    },
+                                //    timeout: 5000,
+                                //});
+                                $("input").val("");
+                                swal.fire(
+                                    'Thành công!',
+                                    'tài khoản đã được tạo.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swal.fire(
+                                    'không thành công!',
+                                    'tài khoản này đã tồn tại hoặc không hợp lệ.',
+                                    'danger'
+                                )
+                            }
+                        },
+                        error: function (request, status, error) {
+                            Swal.fire(
+                                'Kết nối không thành công',
+                                'Vui lòng kiểm tra lại kết nối Internet',
+                                'danger'
+                            )
+                        },
+                        timeout: 5000,
+                    });
+                }
+            });
+            $("#calendar").fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month'
+                },
+                firstDay: 1,
+                selectable: true,
+                defaultView: 'month',
+                axisFormat: 'h:mm',
+                columnFormat: {
+                    month: 'ddd',
+                    week: 'ddd d',
+                    day: 'dddd M/d',
+                    agendaDay: 'dddd d'
+                },
+                titleFormat: {
+                    month: 'MMMM YYYY',
+                },
+                events: dataevent,
+                eventcolor: 'red',
+                selecthelper: true,
+                select: function (start, end, allday) {
+                    var tungay = moment(start).format("DD/MM/YYYY");
+                    var denngay = moment(end).format("DD/MM/YYYY");
+                    $("#tungay").val(tungay);
+                    $("#denngay").val(denngay);
+                    $('#modaladd').modal({ backdrop: 'static', keyboard: true });
+                },
+                eventRender: function (eventObj, $el) {
+                    $el.popover({
+                        title: eventObj.title,
+                        content: eventObj.description,
+                        trigger: 'hover',
+                        placement: 'top',
+                        container: 'body'
+                    });
+                },
+                //dayClick: function (date, allDay, jsEvent) {
+                //    var checkDay = new Date($.fullCalendar.formatDate(date, 'yyyy-MM-dd'));
+                //    if (checkDay.getDay() == 6 || checkDay.getDay() == 0) alert('Weekend!');
+                //},
+                eventClick: function (event, jsEvent, view) {
+                    if (event.trangthai == 2) {
+                        $.ajax({
+                            url: '/he-thong/getpheduyet',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{Id: ' + JSON.stringify(event.Id) + '}',
+                            success: function (data) {
+                                $("#Id").html(data.Id);
+                                $("#loaiphep").val(data.loaiphep);
+                                $("#lydo").val(data.lydo);
+                                $("#songaynghi").val(data.songaynghi);
+                                $("#ghichu").val(data.ghichu);
+                                $("#tungay").val(moment(new Date(Number(data.tungay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                                $("#buoiTuNgay").val(data.buoitungay);
+                                $("#denngay").val(moment(new Date(Number(data.denngay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                                $("#buoiDenNgay").val(data.buoidenngay);
+                                $('#modalview').modal({ backdrop: 'static', keyboard: true });
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else {
+                        $.ajax({
+                            url: '/he-thong/getngaynghi',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{Id: ' + JSON.stringify(event.Id) + '}',
+                            success: function (data) {
+                                $("#Idedit").html(data.Id);
+                                $("#loaiphepedit").val(data.loaiphep);
+                                $("#lydoedit").val(data.lydo);
+                                $("#songaynghiedit").val(data.songaynghi);
+                                $("#ghichuedit").val(data.ghichu);
+                                $("#nguoiduyetedit").val(data.nguoiduyet).trigger('change');
+                                $("#tungayedit").val(moment(new Date(Number(data.tungay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                                $("#buoiTuNgayedit").val(data.buoitungay);
+                                $("#denngayedit").val(moment(new Date(Number(data.denngay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                                $("#buoiDenNgayedit").val(data.buoidenngay);
+                                $('#modaledit').modal({ backdrop: 'static', keyboard: true });
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    }
+                },
+            });
+        });
+    </script>
+}

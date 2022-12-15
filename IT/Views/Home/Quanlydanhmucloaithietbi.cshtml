@@ -1,0 +1,559 @@
+﻿@model IEnumerable<IT.Models.TBL_DANHMUCLOAITHIETBI>
+@{
+    ViewBag.Title = "Quản lý danh mục loại thiết bị";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+@section styles {
+    <!-- DataTables -->
+    <link href="/Content/assets/plugins/jsgrid/jsgrid.min.css" rel="stylesheet">
+    <link href="/Content/assets/plugins/jsgrid/jsgrid-theme.min.css" rel="stylesheet">
+
+    <link href="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="/Content/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý danh mục loại thiết bị</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý danh mục loại thiết bị</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Mã loại <code class="text-danger">(*)</code></label>
+                            <input name="maphong" type="text" class="form-control" id="maloai" placeholder="Nhập mã loại">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên loại <code class="text-danger">(*)</code></label>
+                            <input name="tenphong" type="text" class="form-control" id="tenloai" placeholder="Nhập tên loại thiết bị">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Class </label>
+                            <input name="tenphong" type="text" class="form-control" id="lop" placeholder="Nhập class">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Model </label>
+                            <input name="tenphong" type="text" class="form-control" id="model" placeholder="Nhập model">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-2">
+                        <button id="btntao" type="button" class="btn btn-gradient-primary">THÊM</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title">DANH MỤC LOẠI THIẾT BỊ</h4>
+
+                <div id="partialview">
+                    <table class="table mb-0 w-100" id="datatable-buttons">
+                        <thead>
+                            <tr>
+                                <th>Mã loại</th>
+                                <th>Tên loại</th>
+                                <th>Class</th>
+                                <th>Model</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model)
+                            {
+                            <tr>
+                                <td>@i.maloai</td>
+                                <td>@i.tenthietbi</td>
+                                <td>@i.lop</td>
+                                <td>@i.model</td>
+                                <td>
+                                    <button data-toggle="modal" data-target="#modeledit" value="@i.maloai" class="mr-2 btnedit border-0">
+                                        <i class="fas fa-edit text-info font-16"></i>
+                                    </button>
+                                    <button value="@i.maloai" class="btndelete border-0"><i class="fas fa-trash-alt text-danger font-16"></i></button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table><!--end table-->
+                </div><!--end card-body-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<div class="modal fade" id="modeledit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">THAY ĐỔI THÔNG TIN THIẾT BỊ <b id="mathietbi"></b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Mã loại <code class="text-danger">(*)</code></label>
+                            <input readonly name="maphong" type="text" class="form-control" id="maloaiedit" placeholder="Nhập mã loại">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên loại <code class="text-danger">(*)</code></label>
+                            <input name="tenphong" type="text" class="form-control" id="tenloaiedit" placeholder="Nhập tên loại thiết bị">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Class </label>
+                            <input name="tenphong" type="text" class="form-control" id="lopedit" placeholder="Nhập class">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Model </label>
+                            <input name="tenphong" type="text" class="form-control" id="model1edit" placeholder="Nhập model">
+                        </div>
+                    </div>
+                  
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient-primary waves-effect" id="btnsubmit">HOÀN TẤT</button>
+                <button type="button" class="btn btn-gradient-danger waves-effect" data-dismiss="modal">ĐÓNG</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+@section scripts {
+
+    <!-- Required datatable js -->
+    <!-- Buttons examples -->
+    <!-- Required datatable js -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var table = $('#datatable-buttons').DataTable({
+                "iDisplayLength": 50,
+                "scrollX": true,
+
+                buttons: ['copy', 'excel', 'pdf', 'colvis']
+            });
+            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn thêm mã phòng ban này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#maphong").val() == "" || $("#tenphong").val() == "") {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+
+                            var data = {
+                                "maphong": $("#maphong").val()
+                                , "tenphong": $("#tenphong").val()
+                            }
+                            $.ajax({
+                                url: '/he-thong/addphongban',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Thêm thành công Mã phòng <b>' + data.data + '</b>',
+                                            'success'
+                                        )
+                                           $.ajax({
+                        type: "POST",
+                        url: '/he-thong/partialphongban',
+                        datatype: 'json',
+                        contentType: "application/json",
+
+                        error: function () {
+                            Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Không thể kết nối với hệ thống',
+                        'error'
+                      )
+                        },
+                        success: function (data) {
+                            $("#partialview").html(data);
+                            var table = $('#datatable-buttons').DataTable({
+                                "scrollX": true,
+                                lengthChange: false,
+                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                            });
+                            table.buttons().container()
+                          .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                        },
+                        timeout: 5000,
+                    });
+                                        $('input,textarea').val("");
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+
+            $("#partialview").on("click", ".btndelete", function () {
+
+                var hang = $(this);
+                var id = $(this).val();
+                swal.fire({
+                    title: 'Bạn có chắc chắn xóa?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/deletephongban',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{maphong: ' + JSON.stringify(id) + '}',
+                            success: function (data) {
+                                if (data.data != null) {
+                                    hang.closest('tr').remove();
+                                    Swal.fire(
+                                        'Thành công',
+                                        'Đã xóa thành công mã <b>' + data.data + '</b>',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Thất bại',
+                                        'Vui lòng thử lại !',
+                                        'error'
+                                    )
+                                }
+
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $("#btntao").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn thêm mã loại thiết bị này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#maloai").val() == "" || $("#tenloai").val() == "") {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+
+                            var data = {
+                                "maloai": $("#maloai").val()
+                                , "tenthietbi": $("#tenloai").val()
+                                , "model": $("#model").val()
+                                , "lop": $("#lop").val()
+                            }
+                            $.ajax({
+                                url: '/he-thong/addloaithietbi',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Thêm thành công Mã loại thiết bị <b>' + data.data + '</b>',
+                                            'success'
+                                        )
+                                    
+                                        $('input').val("");
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $("#partialview").on("click", ".btndelete", function () {
+
+                var hang = $(this);
+                var id = $(this).val();
+                swal.fire({
+                    title: 'Bạn có chắc chắn xóa?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/deleteloaithietbi',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{maloai: ' + JSON.stringify(id) + '}',
+                            success: function (data) {
+                                if (data.data != null) {
+                                    hang.closest('tr').remove();
+                                    Swal.fire(
+                                        'Thành công',
+                                        'Đã xóa thành công mã <b>' + data.data + '</b>',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Thất bại',
+                                        'Vui lòng thử lại !',
+                                        'error'
+                                    )
+                                }
+
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn lưu thay đổi này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#tenloaiedit").val() == "") {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+                           
+                            var data = {
+                                "maloai": $("#maloaiedit").val()
+                                ,"tenthietbi": $("#tenloaiedit").val()
+
+                                , "lop": $("#lopedit").val()
+                                , "model": $("#model1edit").val()
+                               
+                            }
+                            $.ajax({
+                                url: '/he-thong/editloaithietbi',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Đã cập nhật mã loại <b>' + data.data + '</b>',
+                                            'success'
+                                        )
+                                        $("#modeledit").modal("toggle")
+                                    
+                                        $('input').val("");
+                                        
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $("#partialview").on("click", ".btnedit", function () {
+                var hang = $(this);
+                var id = $(this).val();
+                $.ajax({
+                    url: '/he-thong/getloaithietbi',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{maloai: ' + JSON.stringify(id) + '}',
+                    success: function (data) {
+                        $("#maloaiedit").val(id);
+                        $("#tenloaiedit").val(data.tenthietbi);
+                        $("#lopedit").val(data.lop);
+                        $("#model1edit").val(data.model);
+                    },
+                    error: function (request, status, error) {
+                        Swal.fire(
+                            'Vui lòng thử lại !',
+                            'Không thể kết nối với hệ thống',
+                            'error'
+                        )
+                    },
+                    timeout: 5000,
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@model IT.Models.LoginModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="text-center auth-logo-text">
+    <h4 class="mt-0 mb-3 mt-5">Đăng nhập</h4>
+    <p class="text-muted mb-0">Vui lòng nhập tài khoản và mật khẩu để truy cập vào hệ thống</p>
+</div> <!--end auth-logo-text-->
+
+@using (Html.BeginForm("dang-nhap", "Login", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal form-parsley auth-form my-4" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="username">Tài khoản</label>
+        <div class="input-group mb-3">
+            <span class="auth-form-icon">
+                <i class="dripicons-user"></i>
+            </span>
+            <input data-parsley-required-message="Vui lòng nhập tài khoản." value="@Model.taikhoan" autocomplete="off" type="text" class="form-control" required name="taikhoan" placeholder="Nhập tài khoản">
+        </div>
+    </div><!--end form-group-->
+
+    <div class="form-group">
+        <label for="userpassword">Mật khẩu</label>
+        <div class="input-group mb-3">
+            <span class="auth-form-icon">
+                <i class="dripicons-lock"></i>
+            </span>
+            <input data-parsley-minlength="6" data-parsley-required-message="Vui lòng nhập mật khẩu." autocomplete="off" type="password" class="form-control" name="matkhau" required placeholder="Nhập mật khẩu">
+        </div>
+    </div><!--end form-group-->
+
+    <div class="form-group row mt-4">
+            <div class="col-sm-6">
+                <div class="custom-control custom-switch switch-success">
+                    <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
+                    <label class="custom-control-label text-muted" for="customSwitchSuccess">Nhớ mật khẩu</label>
+                </div>
+            </div><!--end col-->
+            <div class="col-sm-6 text-right">
+                <a href="/quen-mat-khau" class="text-muted font-13"><i class="dripicons-lock"></i> Quên mật khẩu?</a>
+            </div><!--end col-->
+        </div><!--end form-group-->
+
+    <div class="form-group mb-0 row">
+        <div class="col-12 mt-2">
+            <button id="submit" class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light" type="submit">Đăng nhập <i class="fas fa-sign-in-alt ml-1"></i></button>
+        </div><!--end col-->
+    </div> <!--end form-group-->
+}
+@section scripts {
+
+    @if (ViewBag.msg != null)
+    {
+        <script>
+            $(document).ready(function () {
+                 Swal.fire(
+                    'Không thành công',
+                    '@Html.Raw(ViewBag.msg)',
+                    'error'
+                )
+                     $("input[name='Password']").focus();
+            });
+        </script>
+    }
+}

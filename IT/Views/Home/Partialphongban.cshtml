@@ -1,0 +1,25 @@
+﻿@model IEnumerable<IT.Models.TBL_DANHMUCPHONGBAN>
+<table class="table mb-0 w-100" id="datatable-buttons">
+    <thead>
+        <tr>
+            <th>Mã phòng</th>
+            <th>Tên phòng</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.maphong</td>
+                <td>@i.tenphong</td>
+                <td>
+                    <button value="@i.maphong" class="mr-2 btnedit border-0">
+                        <i class="fas fa-edit text-info font-16"></i>
+                    </button>
+                    <button value="@i.maphong" class="btndelete border-0"><i class="fas fa-trash-alt text-danger font-16"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table><!--end table-->

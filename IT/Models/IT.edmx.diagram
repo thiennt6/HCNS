@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="132d02d2119541ce8a0f7b3ed50e0bc5" Name="Diagram1" ZoomLevel="101">
+        <EntityTypeShape EntityType="ITModel.DTA_DANHMUCTHIETBIKHAC" Width="1.5" PointX="5.25" PointY="9.875" />
+        <EntityTypeShape EntityType="ITModel.DTA_DANHSACHTHIETBI" Width="1.5" PointX="5.25" PointY="5.125" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCKHUVUC" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCLOAITHIETBI" Width="1.5" PointX="7.75" PointY="10.375" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCNGUOIDUNG" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCPHANQUYEN" Width="1.5" PointX="7.5" PointY="2" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCPHONGBAN" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCSN" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCTHIETBI" Width="1.5" PointX="10" PointY="5.125" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHMUCTHIETBI_AUDIT" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHSACHLOAIPHEP" Width="1.5" PointX="9.75" PointY="13.125" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHSACHNGAYNGHI" Width="1.5" PointX="12" PointY="12" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHSACHNGAYNGHI_AUDIT" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_DANHSACHNGUOINHAN" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_NHANIN" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_PHIEUGIAONHAN" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ITModel.TBL_TRANGTHAIMAY" Width="1.5" PointX="7.75" PointY="7" />
+        <AssociationConnector Association="ITModel.FK_DTA_DANHMUCTHIETBIKHAC_TBL_DANHMUCPHONGBAN" />
+        <AssociationConnector Association="ITModel.FK_DTA_DANHSACHTHIETBI_TBL_DANHMUCPHONGBAN" />
+        <AssociationConnector Association="ITModel.FK_TBL_DANHMUCPHONGBAN_TBL_DANHMUCKHUVUC" />
+        <AssociationConnector Association="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCLOAITHIETBI" />
+        <AssociationConnector Association="ITModel.FK_TBL_DANHMUCNGUOIDUNG_TBL_DANHMUCPHONGBAN" />
+        <AssociationConnector Association="ITModel.FK_TBL_DANHMUCTHIETBI_TBL_DANHMUCTRANGTHAIMAY" />
+        <AssociationConnector Association="ITModel.FK_TBL_DANHSACHNGAYNGHI_TBL_DANHSACHLOAIPHEP" />
+        <AssociationConnector Association="ITModel.TBL_CHITIETPHANQUYEN" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Website chấm ăn chấm công của công ty cổ phần PYMEPHARCO" name="description" />
+    <meta content="IT_DEPARTMENT" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Content/Image/logofooter.png">
+    <!-- Sweet Alert -->
+    <link href="/Content/assets/plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
+    <link href="/Content/assets/plugins/animate/animate.css" rel="stylesheet" type="text/css">
+    <!-- App css -->
+    <link href="/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/css/metisMenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/css/style.css?version=2" rel="stylesheet" type="text/css" />
+
+    @RenderSection("styles", required: false)
+    <style>
+        .parsley-errors-list {
+            width: 100%;
+        }
+
+        .account-body .auth-card .auth-logo-box .auth-logo {
+            border-radius: unset;
+        }
+    </style>
+</head>
+
+<body class="account-body accountbg">
+
+    <!-- Log In page -->
+    <div class="row vh-100 ">
+        <div class="col-12 align-self-center">
+            <div class="auth-page">
+                <div class="card auth-card shadow-lg">
+                    <div class="card-body">
+                        <div class="px-3">
+                            <div class="auth-logo-box">
+                                <a href="https://pymepharco.com" class="logo logo-admin"><img src="~/Content/Image/logopmpsmall.png" height="55" alt="logo" class="auth-logo"></a>
+                            </div><!--end auth-logo-box-->
+                            @RenderBody()
+
+                        </div><!--end /div-->
+                        @*<div class="m-3 text-center text-muted">
+                                <p class="">Chưa có tài khoản ?  <a href="/dang-ky" class="text-primary ml-2">Đăng ký</a></p>
+                            </div>*@
+                    </div><!--end card-body-->
+                </div><!--end card-->
+                @*<div class="account-social text-center mt-4">
+                        <h6 class="my-4">Or Login With</h6>
+                        <ul class="list-inline mb-4">
+                            <li class="list-inline-item">
+                                <a href="" class="">
+                                    <i class="fab fa-facebook-f facebook"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="" class="">
+                                    <i class="fab fa-twitter twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="" class="">
+                                    <i class="fab fa-google google"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>*@
+            </div><!--end auth-page-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <!-- End Log In page -->
+    <!-- jQuery  -->
+    <script src="/Content/assets/js/jquery.min.js"></script>
+    <script src="/Content/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/Content/assets/js/metisMenu.min.js"></script>
+    <script src="/Content/assets/js/waves.min.js"></script>
+    <script src="/Content/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="/Content/assets/plugins/sweet-alert2/sweetalert2.min.js?version=1"></script>
+    <!-- Parsley js -->
+    <script src="/Content/assets/plugins/parsleyjs/parsley.min.js?version=2"></script>
+    <script src="/Content/assets/pages/jquery.validation.init.js"></script>
+
+    <script src="/Content/assets/js/jquery.core.js"></script>
+    <!-- App js -->
+    <script src="/Content/assets/js/app.js"></script>
+    <script>
+
+        //has uppercase
+        window.Parsley.addValidator('uppercase', {
+            requirementType: 'number',
+            validateString: function (value, requirement) {
+                var uppercases = value.match(/[A-Z]/g) || [];
+                return uppercases.length >= requirement;
+            },
+            messages: {
+                en: 'Mật khẩu của bạn phải chứa ít nhất (%s) chữ hoa.'
+            }
+        });
+
+        //has lowercase
+        window.Parsley.addValidator('lowercase', {
+            requirementType: 'number',
+            validateString: function (value, requirement) {
+                var lowecases = value.match(/[a-z]/g) || [];
+                return lowecases.length >= requirement;
+            },
+            messages: {
+                en: 'Mật khẩu của bạn phải chứa ít nhất (%s) chữ thường.'
+            }
+        });
+
+        //has number
+        window.Parsley.addValidator('number', {
+            requirementType: 'number',
+            validateString: function (value, requirement) {
+                var numbers = value.match(/[0-9]/g) || [];
+                return numbers.length >= requirement;
+            },
+            messages: {
+                en: 'Mật khẩu của bạn phải chứa ít nhất (%s) số.'
+            }
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

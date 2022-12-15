@@ -1,0 +1,354 @@
+﻿@model IEnumerable<IT.Models.TBL_DANHMUCPHONGBAN>
+@{
+    ViewBag.Title = "Quản lý danh mục phòng ban";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+@section styles {
+    <!-- DataTables -->
+    <link href="/Content/assets/plugins/jsgrid/jsgrid.min.css" rel="stylesheet">
+    <link href="/Content/assets/plugins/jsgrid/jsgrid-theme.min.css" rel="stylesheet">
+
+    <link href="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="/Content/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý danh mục phòng ban</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý danh mục phòng ban</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Mã phòng <code class="text-danger">(*)</code></label>
+                            <input name="maphong" type="text" class="form-control" id="maphong" placeholder="Nhập mã phòng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên phòng <code class="text-danger">(*)</code></label>
+                            <input name="tenphong" type="text" class="form-control" id="tenphong" placeholder="Nhập tên phòng">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-2">
+                        <button id="btnsubmit" type="button" class="btn btn-gradient-primary">THÊM</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title">DANH MỤC PHÒNG BAN</h4>
+
+                <div id="partialview">
+                    <table class="table mb-0 w-100" id="datatable-buttons">
+                        <thead>
+                            <tr>
+                                <th>Mã phòng</th>
+                                <th>Tên phòng</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td>@i.maphong</td>
+                                    <td>@i.tenphong</td>
+                                    <td>
+                                        <button value="@i.maphong" class="mr-2 btnedit border-0">
+                                            <i class="fas fa-edit text-info font-16"></i>
+                                        </button>
+                                        <button value="@i.maphong" class="btndelete border-0"><i class="fas fa-trash-alt text-danger font-16"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table><!--end table-->
+                </div><!--end card-body-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- /.modal -->
+@section scripts {
+
+    <!-- Required datatable js -->
+    <!-- Buttons examples -->
+    <!-- Required datatable js -->
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var table = $('#datatable-buttons').DataTable({
+                "iDisplayLength": 50,
+                "scrollX": true,
+
+                buttons: ['copy', 'excel', 'pdf', 'colvis']
+            });
+            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn thêm mã phòng ban này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#maphong").val() == "" || $("#tenphong").val() == "") {
+                            Swal.fire(
+                                'Vui lòng thử lại !',
+                                'Bạn chưa điền đủ thông tin',
+                                'warning'
+                            )
+                        }
+                        else {
+
+                            var data = {
+                                "maphong": $("#maphong").val()
+                                , "tenphong": $("#tenphong").val()
+                            }
+                            $.ajax({
+                                url: '/he-thong/addphongban',
+                                type: "POST",
+                                datatype: 'json',
+                                contentType: "application/json",
+                                data: '{data: ' + JSON.stringify(data) + '}',
+                                success: function (data) {
+                                    if (data.data != null) {
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Thêm thành công Mã phòng <b>' + data.data + '</b>',
+                                            'success'
+                                        )
+                                           $.ajax({
+                        type: "POST",
+                        url: '/he-thong/partialphongban',
+                        datatype: 'json',
+                        contentType: "application/json",
+
+                        error: function () {
+                            Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Không thể kết nối với hệ thống',
+                        'error'
+                      )
+                        },
+                        success: function (data) {
+                            $("#partialview").html(data);
+                            var table = $('#datatable-buttons').DataTable({
+                                "scrollX": true,
+                                lengthChange: false,
+                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                            });
+                            table.buttons().container()
+                          .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                        },
+                        timeout: 5000,
+                    });
+                                        $('input,textarea').val("");
+                                    }
+                                    else {
+                                        Swal.fire(
+                                            'Thất bại',
+                                            'Vui lòng thử lại !',
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function (request, status, error) {
+                                    Swal.fire(
+                                        'Vui lòng thử lại !',
+                                        'Không thể kết nối với hệ thống',
+                                        'error'
+                                    )
+                                },
+                                timeout: 5000,
+                            });
+
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+
+            $("#partialview").on("click", ".btndelete", function () {
+
+                var hang = $(this);
+                var id = $(this).val();
+                swal.fire({
+                    title: 'Bạn có chắc chắn xóa?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/deletephongban',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{maphong: ' + JSON.stringify(id) + '}',
+                            success: function (data) {
+                                if (data.data != null) {
+                                    hang.closest('tr').remove();
+                                    Swal.fire(
+                                        'Thành công',
+                                        'Đã xóa thành công mã <b>' + data.data + '</b>',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Thất bại',
+                                        'Vui lòng thử lại !',
+                                        'error'
+                                    )
+                                }
+
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+
+            $("#partialview").on("click", ".btnedit", function () {
+                var hang = $(this);
+                var id = $(this).val();
+
+                Swal.fire({
+                    title: "Tên phòng ban cho mã " + id,
+                    text: "Nhập tên phòng ban mới",
+                    input: 'text',
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        var data = {
+                            "maphong": id
+                            , "tenphong": result.value
+                        }
+
+                        $.ajax({
+                            url: '/he-thong/editphongban',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{data: ' + JSON.stringify(data) + '}',
+                            success: function (data) {
+                                if (data.data != null) {
+                                    Swal.fire(
+                                        'Thành công',
+                                        'Đã cập nhật thành công mã <b>' + data.data + '</b>',
+                                        'success'
+                                    )
+                                    $.ajax({
+                        type: "POST",
+                           url: '/he-thong/partialphongban',
+                        datatype: 'json',
+                        contentType: "application/json",
+
+                        error: function () {
+                            Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Không thể kết nối với hệ thống',
+                        'error'
+                      )
+                        },
+                                        success: function (data) {
+
+                            $("#partialview").html(data);
+                            var table = $('#datatable-buttons').DataTable({
+                                "scrollX": true,
+                                lengthChange: false,
+                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                            });
+                            table.buttons().container()
+                          .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                        },
+                        timeout: 5000,
+                    });
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Thất bại',
+                                        'Vui lòng thử lại !',
+                                        'error'
+                                    )
+                                }
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Vui lòng thử lại !',
+                                    'Không thể kết nối với hệ thống',
+                                    'error'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+
+                    }
+                });
+
+
+            });
+        });
+    </script>
+}

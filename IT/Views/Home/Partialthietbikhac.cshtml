@@ -1,0 +1,45 @@
+﻿@model IT.Models.ListDataMayIn
+<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>STT</th>
+            <th>Mã phòng</th>
+            <th>Loại</th>
+            <th>Tên máy</th>
+            <th>Số lượng</th>
+            <th>Năm sử dụng</th>
+            <th>IP</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var count = 1;
+            foreach (var i in Model.datamayin)
+            {
+                <tr>
+                    <td>
+                        <div class="dropdown d-inline-block float-right">
+                            <a class="nav-link dropdown-toggle arrow-none" id="dLabel5" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v font-20 text-muted"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel5">
+                                <button class="dropdown-item btnedit" data-toggle="modal" data-target="#modeledit" value="@i.id">Thay đổi</button>
+                                <button class="dropdown-item btnxoa" value="@i.id">Xóa</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>@count</td>
+                    <td>@i.maphong</td>
+                    <td>@i.loai</td>
+                    <td>@i.tenmay</td>
+                    <td>@i.soluong</td>
+                    <td>@i.namsudung</td>
+                    <td>@i.ip</td>
+                </tr>
+                count = count + 1;
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,347 @@
+﻿@model IEnumerable<IT.Models.TBL_DANHMUCPHONGBAN>
+@{
+    ViewBag.Title = "Thêm máy tính";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Thêm máy tính</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Thêm máy tính</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<div class="row">
+
+    <div class="col-lg-12 p-0">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mt-0 header-title font-weight-bold">THÔNG TIN MÁY TÍNH</h4>
+                <p class="text-muted mb-3">
+                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                </p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-3 font-weight-bold">Phòng ban - Bộ phận <code class="text-danger">(*)</code></label>
+                            <select id="maphong" class="select2 form-control mb-3 custom-select" style="width: 100%; height:31px;">
+                                @foreach (var i in Model)
+                                {
+                                    <option value="@i.maphong">@i.maphong - @i.tenphong</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên người dùng</label>
+                            <input type="text" class="form-control" id="tennguoidung" placeholder="Nhập tên người dùng">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Tên máy <code class="text-danger">(*)</code></label>
+                            <input type="text" class="form-control" id="tenmay" placeholder="Nhập tên máy">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Địa chỉ IPv4 hiện tại <code class="text-danger">(*)</code></label>
+                            <input name="ip" type="text" class="form-control" id="ip" placeholder="Nhập địa chỉ IP">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Loại máy <code class="text-danger">(*)</code></label>
+                            <select id="loaimaytinh" name="loaimaytinh" class="form-control selectreset">
+                                <option value="PC">PC</option>
+                                <option value="LAPTOP">LAPTOP</option>
+                                <option value="WORKSTATION">WORKSTATION</option>
+                                <option value="SERVER">SERVER</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Thương hiệu <code class="text-danger">(*)</code></label>
+                            <select id="thuonghieu" name="thuonghieu" class="form-control selectreset">
+                                <option value="DELL">DELL</option>
+                                <option value="HP">HP</option>
+                                <option value="LENOVO">LENOVO</option>
+                                <option value="IBM">IBM</option>
+                                <option value="FPT">FPT</option>
+                                <option value="ASUS">ASUS</option>
+                                <option value="ACER">ACER</option>
+                                <option value="APPLE">APPLE</option>
+                                <option value="MSI">MSI</option>
+                                <option value="KHAC">KHÁC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Dòng CPU <code class="text-danger">(*)</code></label>
+                            <input name="cpu" type="text" class="form-control" id="cpu" placeholder="Nhập dòng CPU (VD: i7-7700)">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Hệ điều hành <code class="text-danger">(*)</code></label>
+                            <select id="os" name="os" class="form-control selectreset">
+                                <option value="WIN10">Win 10</option>
+                                <option value="WIN8">Win 8</option>
+                                <option value="WIN7">Win 7</option>
+                                <option value="WINXP">Win XP</option>
+                                <option value="WINSV2k8">Win server 2008</option>
+                                <option value="WINSV2k12">Win server 2012</option>
+                                <option value="WINSV2k16">Win server 2016</option>
+                                <option value="WINSV2k19">Win server 2019</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Ổ cứng HDD</label>
+                            <select id="hdd" name="hdd" class="form-control selectreset">
+                                <option value="128GB">128GB</option>
+                                <option value="240GB">240GB</option>
+                                <option value="500GB">500GB</option>
+                                <option value="1TB">1TB</option>
+                                <option value="128GB">128GB</option>
+                                <option value="256GB">256GB</option>
+                                <option value="4TB">4TB</option>
+                                <option selected value="NULL">Không có</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Ổ cứng SSD</label>
+                            <select id="ssd" name="ssd" class="form-control selectreset">
+                                <option selected value="NULL">Không có</option>
+                                <option value="128GB">128GB</option>
+                                <option value="256GB">256GB</option>
+                                <option value="512GB">512GB</option>
+                                <option value="1TB">1TB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Ram <code class="text-danger">(*)</code></label>
+                            <select id="ram" name="ram" class="form-control selectreset">
+                                <option value="1GB">1GB</option>
+                                <option value="2GB">2GB</option>
+                                <option value="3GB">3GB</option>
+                                <option selected value="4GB">4GB</option>
+                                <option value="6GB">6GB</option>
+                                <option value="8GB">8GB</option>
+                                <option value="12GB">12GB</option>
+                                <option value="16GB">16GB</option>
+                                <option value="32GB">32GB</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="exampleInputEmail1">Năm sử dụng</label>
+                            <input type="number" class="form-control" id="namsudung" placeholder="Nhập năm sử dụng">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <label class="font-weight-bold">Ảnh MSINFO32</label>
+                        <p class="text-muted mb-3">Chọn hoặc kéo thả ảnh vào đây (Tối đa 10Mb)</p>
+                        <input type="file" id="imageUploadForm" class="dropify" data-max-file-size="10M" data-allowed-file-extensions="png jpg" data-height="200" />
+
+                    </div><!--end col-->
+                    <div class="col-lg-12 mt-2">
+                        <button id="btnsubmit" type="button" class="btn btn-gradient-primary">HOÀN TẤT</button>
+                        <button onClick="window.location.reload();" type="button" class="btn btn-gradient-danger">TẠO LẠI</button>
+                    </div>
+                </div>
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div><!--end col-->
+
+</div>
+@section scripts {
+    <script src="/Content/assets/plugins/dropify/js/dropify.min.js"></script>
+    <script src="/Content/assets/pages/jquery.form-upload.init.js"></script>
+    <script>
+        $(document).ready(function () {
+          
+            $("#btnsubmit").click(function () {
+                swal.fire({
+                    title: 'Bạn có chắc chắn lưu?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        if ($("#tenmay").val() == "" || $("#ip").val() == "" || $("#cpu").val() == "") {
+                            Swal.fire(
+                        'Vui lòng thử lại !',
+                        'Bạn chưa điền đủ thông tin',
+                        'warning'
+                      )
+                        }
+                        else {
+                            if (document.getElementById("imageUploadForm").files.length != 0) {
+                                var formData = new FormData();
+                                var totalFiles = document.getElementById("imageUploadForm").files.length;
+
+                                var file = document.getElementById("imageUploadForm").files[0];
+
+                                var newFileName = $("#maphong").val() + "_" + $("#tenmay").val() + "." + file.name.split('.').pop();;
+                                formData.append("file", file, newFileName);
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/he-thong/UploadImage',
+                                    data: formData,
+                                    dataType: 'json',
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (respone) {
+                                        var data = {
+                                            "maphong": $("#maphong").val()
+                                            , "tennguoidung": $("#tennguoidung").val()
+                                      , "tenmay": $("#tenmay").val()
+                                      , "os": $("#os").val()
+                                      , "cpu": $("#cpu").val()
+                                      , "ssd": ($("#ssd").val() == "NULL") ? null : $("#ssd").val()
+                                      , "hdd": ($("#hdd").val() == "NULL") ? null : $("#hdd").val()
+                                      , "ip": $("#ip").val()
+                                      , "ram": $("#ram").val()
+                                            , "loaimaytinh": $("#loaimaytinh").val()
+                                            , "thuonghieu": $("#thuonghieu").val()
+                                      , "namsudung": $("#namsudung").val()
+                                      , "urlimage": "/Content/DataImage/" + newFileName
+                                        }
+                                        $.ajax({
+                                            url: '/he-thong/addthietbi',
+                                            type: "POST",
+                                            datatype: 'json',
+                                            contentType: "application/json",
+                                            data: '{data: ' + JSON.stringify(data) + '}',
+                                            success: function (data) {
+                                                if (data == 1) {
+                                                    Swal.fire(
+                            'Thành công',
+                            '',
+                            'success'
+                          )
+                                                    $('.selectreset option').prop('selected', function () {
+                                                        return this.defaultSelected;
+                                                    });
+                                                    $('input').val("");
+                                                    $('.dropify-clear').click();
+                                                }
+                                                else {
+                                                    Swal.fire(
+                           'Thất bại',
+                           'Tên máy tại phòng ban này đã tồn tại !',
+                           'error'
+                         )
+                                                }
+                                            },
+                                            error: function (request, status, error) {
+                                                Swal.fire(
+                               'Vui lòng thử lại !',
+                               'Không thể kết nối với hệ thống',
+                               'error'
+                             )
+                                            },
+                                            timeout: 5000,
+                                        });
+                                    },
+                                    error: function (reponse) {
+                                        Swal.fire(
+                     'Vui lòng thử lại !',
+                     'Không thể kết nối với hệ thống',
+                     'error'
+                   )
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                var data = {
+                                    "maphong": $("#maphong").val()
+                                    , "tennguoidung": $("#tennguoidung").val()
+                                    , "tenmay": $("#tenmay").val()
+                                    , "os": $("#os").val()
+                                    , "cpu": $("#cpu").val()
+                                   , "ssd": ($("#ssd").val() == "NULL") ? null : $("#ssd").val()
+                                      , "hdd": ($("#hdd").val() == "NULL") ? null : $("#hdd").val()
+                                    , "ip": $("#ip").val()
+                                    , "namsudung": $("#namsudung").val()
+                                    , "ram": $("#ram").val()
+                                   , "loaimaytinh": $("#loaimaytinh").val()
+                                            , "thuonghieu": $("#thuonghieu").val()
+                                }
+                                $.ajax({
+                                    url: '/he-thong/addthietbi',
+                                    type: "POST",
+                                    datatype: 'json',
+                                    contentType: "application/json",
+                                    data: '{data: ' + JSON.stringify(data) + '}',
+                                    success: function (data) {
+                                        if (data == 1) {
+                                            Swal.fire(
+                    'Thành công',
+                    '',
+                    'success'
+                  )
+                                            $('.selectreset option').prop('selected', function () {
+                                                return this.defaultSelected;
+                                            });
+                                            $('input').val("");
+                                            $('.dropify-clear').click();
+                                        }
+                                        else {
+                                            Swal.fire(
+                   'Thất bại',
+                   'Tên máy tại phòng ban này đã tồn tại !',
+                   'error'
+                 )
+                                        }
+                                    },
+                                    error: function (request, status, error) {
+                                        Swal.fire(
+                       'Vui lòng thử lại !',
+                       'Không thể kết nối với hệ thống',
+                       'error'
+                     )
+                                    },
+                                    timeout: 5000,
+                                });
+                            }
+
+                        }
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            });
+            $(".select2").select2({
+                width: '100%'
+            });
+        });
+    </script>
+}

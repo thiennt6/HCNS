@@ -1,0 +1,89 @@
+﻿@model IT.Models.Listquanlypheduyet
+<div id="Viewtable" class="table-responsive-md">
+    <table class="table mb-0 w-100" id="datatable-buttons">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nhân viên</th>
+                <th>Loại nghỉ phép</th>
+                <th>Lý do nghỉ</th>
+                <th>Thời gian nghỉ</th>
+                <th>Số ngày nghỉ</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DANHSACHNGAYNGHI)
+            {
+                <tr role="row" class="odd">
+
+                    <td data-id="@item.Id">@item.Id</td>
+                    <td>@item.taikhoan</td>
+                    @if (item.loaiphep == 1)
+                    {
+                        <td>Phép Năm</td>
+                    }
+                    else if (item.loaiphep == 2)
+                    {
+                        <td>Phép Gia Cảnh</td>
+                    }
+                    else if (item.loaiphep == 3)
+                    {
+                        <td>Phép Nghỉ Ốm</td>
+                    }
+                    else if (item.loaiphep == 4)
+                    {
+                        <td>Phép Nghỉ Xưởng</td>
+                    }
+                    else if (item.loaiphep == 5)
+                    {
+                        <td>Phép Nghỉ Việc Riêng + Thai Sản</td>
+                    }
+                    else
+                    {
+                        <td>Nghỉ Việc Không Lương</td>
+                    }
+                    <td>@item.lydo</td>
+                    <td>
+                        @item.tungay.ToString("dd/MM/yyyy") (@if (item.buoitungay == 1)
+                        {<span>Sáng</span>}
+                        else
+                        { <span>Chiều</span>}) - @item.denngay.ToString("dd/MM/yyyy") (@if (item.buoidenngay == 1)
+                        {<span>Sáng</span>}
+                        else
+                        {<span>Chiều</span>})
+                    </td>
+                    <td>@item.songaynghi</td>
+                    <td>@item.ngaytao</td>
+                    @if (item.trangthai == 1)
+                    {
+                        <td><span class="badge badge-md badge-soft-warning">Đang chờ ký</span></td>
+                    }
+                    else if (item.trangthai == 2)
+                    {
+                        <td><span class="badge badge-md badge-soft-success">Đã duyệt</span></td>
+                    }
+                    else
+                    {
+                        <td><span class="badge badge-md badge-soft-danger">Từ chối</span></td>
+                    }
+                    <td>
+                        @if (item.trangthai == 1)
+                        {
+                            <button value="@item.Id" class="mr-2 btnview border-0">
+                                <i class="fas fa-eye text-info font-16"></i>
+                            </button>
+                            <button value="@item.Id" class="btnduyet border-0" id="btnduyet1"><i class="fas fa-check-square text-success font-16"></i></button>
+                            <button value="@item.Id" class="mr-2 btnedit border-0">
+                                <i class="fas fa-ban text-danger font-16"></i>
+                            </button>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table><!--end table-->
+</div><!--end table-responsive-md-->

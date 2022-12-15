@@ -1,0 +1,696 @@
+﻿@model IT.Models.Listquanlypheduyet
+@{
+    ViewBag.Title = "Quản lý danh sách phê duyệt";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+@section styles {
+    <!-- DataTables -->
+    <link href="/Content/assets/plugins/jsgrid/jsgrid.min.css" rel="stylesheet">
+    <link href="/Content/assets/plugins/jsgrid/jsgrid-theme.min.css" rel="stylesheet">
+
+    <link href="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="/Content/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Datarangepicker -->
+    <link href="/Content/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Hệ thống</a></li>
+
+                    <li class="breadcrumb-item active">Quản lý danh sách phê duyệt</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Quản lý danh sách phê duyệt</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div id="Viewtable" class="table-responsive-md">
+                    <table class="table mb-0 w-100" id="datatable-buttons">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nhân viên</th>
+                                <th>Loại nghỉ phép</th>
+                                <th>Lý do nghỉ</th>
+                                <th>Thời gian nghỉ</th>
+                                <th>Số ngày nghỉ</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DANHSACHNGAYNGHI)
+                            {
+                                <tr role="row" class="odd">
+
+                                    <td data-id="@item.Id">@item.Id</td>
+                                    <td>@item.taikhoan</td>
+                                    @if (item.loaiphep == 1)
+                                    {
+                                        <td>Phép Năm</td>
+                                    }
+                                    else if (item.loaiphep == 2)
+                                    {
+                                        <td>Phép Gia Cảnh</td>
+                                    }
+                                    else if (item.loaiphep == 3)
+                                    {
+                                        <td>Phép Nghỉ Ốm</td>
+                                    }
+                                    else if (item.loaiphep == 4)
+                                    {
+                                        <td>Phép Nghỉ Xưởng</td>
+                                    }
+                                    else if (item.loaiphep == 5)
+                                    {
+                                        <td>Phép Nghỉ Việc Riêng + Thai Sản</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Nghỉ Việc Không Lương</td>
+                                    }
+                                    <td>@item.lydo</td>
+                                    <td>
+                                        @item.tungay.ToString("dd/MM/yyyy") (@if (item.buoitungay == 1)
+                                        {<span>Sáng</span>}
+                                        else
+                                        { <span>Chiều</span>}) - @item.denngay.ToString("dd/MM/yyyy") (@if (item.buoidenngay == 1)
+                                        {<span>Sáng</span>}
+                                        else
+                                        {<span>Chiều</span>})
+                                    </td>
+                                    <td>@item.songaynghi</td>
+                                    <td>@item.ngaytao</td>
+                                    @if (item.trangthai == 1)
+                                    {
+                                        <td><span class="badge badge-md badge-soft-warning">Đang chờ ký</span></td>
+                                    }
+                                    else if (item.trangthai == 2)
+                                    {
+                                        <td><span class="badge badge-md badge-soft-success">Đã duyệt</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td><span class="badge badge-md badge-soft-danger">Từ chối</span></td>
+                                    }
+                                    <td>
+                                        @if (item.trangthai == 1)
+                                        {
+                                            <button value="@item.Id" class="mr-2 btnview border-0">
+                                                <i class="fas fa-eye text-info font-16"></i>
+                                            </button>
+                                            <button value="@item.Id" class="btnduyet border-0"><i class="fas fa-check-square text-success font-16"></i></button>
+                                            <button value="@item.Id" class="mr-2 btntuchoi border-0">
+                                                <i class="fas fa-ban text-danger font-16"></i>
+                                            </button>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table><!--end table-->
+                </div><!--end table-responsive-md-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+<div class="modal fade" id="modalview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đơn nghỉ phép <span class="text-danger" id="Idview"></span></h5>
+                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p class="text-muted mb-3">
+                                    Vui lòng điền đầy đủ các thông tin bên có dấu <code class="text-danger">(*)</code> dưới.
+                                </p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Loại nghỉ phép <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="loaiphep" disabled>
+                                                @foreach (var item in Model.LOAIPHEP)
+                                                {
+                                                    <option value="@item.loaiphep">@item.tenphep</option>
+                                                }
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Lý do nghỉ <code class="text-danger">(*)</code></label>
+                                            <textarea id="lydo" class="form-control" maxlength="225" rows="1" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Từ ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="tungay" disabled>
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiTuNgay" disabled>
+                                                <option value="1">Sáng</option>
+                                                <option value="2">Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold" id="labeldenngay">Đến ngày <code class="text-danger">(*)</code></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="date" id="denngay" disabled>
+                                                <div class="form-group-append">
+                                                    <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Buổi <code class="text-danger">(*)</code></label>
+                                            <select class="form-control" id="buoiDenNgay" value="2" disabled>
+                                                <option value="1">Sáng</option>
+                                                <option value="2" selected>Chiều</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Số ngày nghỉ <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="number" id="songaynghi" value="1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Người duyệt <code class="text-danger">(*)</code></label>
+                                            <input class="form-control" type="text" id="nguoiduyet" value=@Model.NguoiDuyet readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Ghi chú</label>
+                                            <textarea id="ghichu" class="form-control" maxlength="225" rows="3" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success waves-effect" id="btnduyet"><i class="far fa-check-circle text-white font-16"></i>  Duyệt</button>
+                <button type="button" class="btn btn-danger waves-effect" id="btntuchoi"><i class="fas fa-ban text-white font-16"></i>  Từ chối</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog modal-xl -->
+</div><!-- /.modal fade -->
+
+<div class="modal fade" id="modaltuchoi" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Từ chối đơn nghỉ phép <span class="text-danger" id="Idtuchoi"></span></h5>
+                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Lý do từ chối</label>
+                                            <textarea id="lydotuchoi" class="form-control" maxlength="225" rows="3" placeholder="Nhập lý do từ chối" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success waves-effect" id="btnduyet"><i class="far fa-check-circle text-white font-16"></i>  Duyệt</button>
+                <button type="button" class="btn btn-danger waves-effect" id="btntuchoi"><i class="fas fa-ban text-white font-16"></i>  Từ chối</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog modal-xl -->
+</div><!-- /.modal fade -->
+
+
+@section scripts {
+
+    <script src="/Content/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Datatable examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/Content/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/Content/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+
+
+    <script src="/Content/assets/plugins/moment/moment.js"></script>
+    <script src="/Content/assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('input[name="date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+            var table = $('#datatable-buttons').DataTable({
+                "iDisplayLength": 50,
+                "scrollX": true,
+
+                buttons: ['copy', 'excel', 'pdf', 'colvis']
+            });
+            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+
+            $("#Viewtable").on("click", ".btnview", function () {
+                $('#modalview').modal({ backdrop: 'static', keyboard: true });
+                var hang = $(this);
+                var Id = $(this).val();
+                $.ajax({
+                    url: '/he-thong/getpheduyet',
+                    type: "POST",
+                    datatype: 'json',
+                    contentType: "application/json",
+                    data: '{Id: ' + JSON.stringify(Id) + '}',
+                    success: function (data) {
+
+                        var tungay = new Date(Number(data.tungay.replace(/\/Date\((-?\d+)\)\//, '$1')));
+                        document.getElementById("Idview").innerHTML = Id;
+                        $("#loaiphep").val(data.loaiphep);
+                        $("#lydo").val(data.lydo);
+                        $("#songaynghi").val(data.songaynghi);
+                        $("#ghichu").val(data.ghichu);
+                        $("#tungay").val(moment(new Date(Number(data.tungay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                        $("#buoiTuNgay").val(data.buoitungay);
+                        $("#denngay").val(moment(new Date(Number(data.denngay.replace(/\/Date\((-?\d+)\)\//, '$1')))).format('DD/MM/YYYY'));
+                        $("#buoiDenNgay").val(data.buoidenngay);
+                        $('#modalview').modal({ backdrop: 'static', keyboard: true });
+                    },
+                    error: function (request, status, error) {
+                        Swal.fire(
+                            'Vui lòng thử lại !',
+                            'Không thể kết nối với hệ thống',
+                            'error'
+                        )
+                    },
+                    timeout: 5000,
+                });
+            });
+
+
+            $("#Viewtable").on("click", ".btnduyet", function () {
+                var hang = $(this);
+                var Id = $(this).val();
+                Swal.fire({
+                    title: 'Bạn có chắc chắn duyệt đơn nghỉ phép này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/pheduyet',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{Id: ' + JSON.stringify(Id) + '}',
+                            success: function (data) {
+                                $('#modalview').modal('hide');
+                                if (data == 1) {
+                                    $.ajax({
+                                        type: "get",
+                                        url: '/he-thong/Partialquanlydanhsachpheduyet',
+                                        error: function () {
+                                            Swal.fire(
+                                                'Vui lòng thử lại !',
+                                                'Không thể kết nối với hệ thống',
+                                                'error'
+                                            )
+                                        },
+                                        success: function (data) {
+                                            $("#Viewtable").html(data);
+                                            var table = $('#datatable-buttons').DataTable({
+                                                "iDisplayLength": 50,
+                                                "scrollX": true,
+
+                                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                            });
+                                            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                        },
+                                        timeout: 5000,
+                                    });
+
+                                    swal.fire(
+                                        'Thành công!',
+                                        'Đơn nghỉ phép đã được duyệt.',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    swal.fire(
+                                        'Không thành công!',
+                                        'Đơn nghỉ phép này đã tồn tại.',
+                                        'danger'
+                                    )
+                                }
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Kết nối không thành công',
+                                    'Vui lòng kiểm tra lại kết nối Internet',
+                                    'danger'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+
+                    }
+                });
+
+            });
+
+            $('#btnduyet').click(function () {
+                var Id = $("#Idview").text();
+                Swal.fire({
+                    title: 'Bạn có chắc chắn duyệt đơn nghỉ phép này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/pheduyet',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{Id: ' + JSON.stringify(Id) + '}',
+                            success: function (data) {
+                                $('#modalview').modal('hide');
+                                if (data == 1) {
+                                    $.ajax({
+                                        type: "get",
+                                        url: '/he-thong/Partialquanlydanhsachpheduyet',
+                                        error: function () {
+                                            swal.fire(
+                                                'Vui lòng thử lại !',
+                                                'không thể kết nối với hệ thống',
+                                                'error'
+                                            )
+                                        },
+                                        success: function (data) {
+                                            $("#Viewtable").html(data);
+                                            var table = $('#datatable-buttons').DataTable({
+                                                "scrollX": true,
+                                                lengthChange: false,
+                                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                            });
+                                            table.buttons().container()
+                                                .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                        },
+                                        timeout: 5000,
+                                    });
+
+                                    swal.fire(
+                                        'Thành công!',
+                                        'Đơn nghỉ phép đã được duyệt thành công.',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    swal.fire(
+                                        'Không thành công!',
+                                        'Đơn nghỉ phép đã tồn tại hoặc không hợp lệ.',
+                                        'danger'
+                                    )
+                                }
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Kết nối không thành công',
+                                    'Vui lòng kiểm tra lại kết nối Internet',
+                                    'danger'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                });
+
+            });
+
+            $("#Viewtable").on("click", ".btntuchoi", function () {
+                var hang = $(this);
+                var Id = $(this).val();
+                document.getElementById("Idtuchoi").innerHTML = Id;
+                var dataz = {};
+                dataz["Id"] = Id;
+                dataz["LyDoTuChoi"] = $("#lydotuchoi").val();
+                $('#modaltuchoi').modal({ backdrop: 'static', keyboard: true });
+                Swal.fire({
+                    title: 'Bạn có chắc chắn từ chối đơn nghỉ phép này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/tuchoi',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: JSON.stringify(dataz),
+                            success: function (data) {
+                                $('#modalview').modal('hide');
+                                if (data == 1) {
+                                    $.ajax({
+                                        type: "get",
+                                        url: '/he-thong/Partialquanlydanhsachpheduyet',
+                                        error: function () {
+                                            Swal.fire(
+                                                'Vui lòng thử lại !',
+                                                'Không thể kết nối với hệ thống',
+                                                'error'
+                                            )
+                                        },
+                                        success: function (data) {
+                                            $("#Viewtable").html(data);
+                                            var table = $('#datatable-buttons').DataTable({
+                                                "iDisplayLength": 50,
+                                                "scrollX": true,
+
+                                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                            });
+                                            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                        },
+                                        timeout: 5000,
+                                    });
+
+                                    swal.fire(
+                                        'Thành công!',
+                                        'Đơn nghỉ phép đã được từ chối.',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    swal.fire(
+                                        'Không thành công!',
+                                        'Vui lòng thử lại.',
+                                        'danger'
+                                    )
+                                }
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Kết nối không thành công',
+                                    'Vui lòng kiểm tra lại kết nối Internet',
+                                    'danger'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+
+                    }
+                });
+
+            });
+
+            $('#btntuchoi').click(function () {
+                var Id = $("#Idview").text();
+                Swal.fire({
+                    title: 'Bạn có chắc chắn từ chối đơn nghỉ phép này?',
+                    text: "",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Chắn chắn',
+                    cancelButtonText: 'Hủy',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/he-thong/tuchoi',
+                            type: "POST",
+                            datatype: 'json',
+                            contentType: "application/json",
+                            data: '{Id: ' + JSON.stringify(Id) + '}',
+                            success: function (data) {
+                                $('#modalview').modal('hide');
+                                if (data == 1) {
+                                    $.ajax({
+                                        type: "get",
+                                        url: '/he-thong/Partialquanlydanhsachpheduyet',
+                                        error: function () {
+                                            swal.fire(
+                                                'Vui lòng thử lại !',
+                                                'không thể kết nối với hệ thống',
+                                                'error'
+                                            )
+                                        },
+                                        success: function (data) {
+                                            $("#Viewtable").html(data);
+                                            var table = $('#datatable-buttons').DataTable({
+                                                "scrollX": true,
+                                                lengthChange: false,
+                                                buttons: ['copy', 'excel', 'pdf', 'colvis']
+                                            });
+                                            table.buttons().container()
+                                                .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                                        },
+                                        timeout: 5000,
+                                    });
+
+                                    swal.fire(
+                                        'Thành công!',
+                                        'Đơn nghỉ phép đã được duyệt thành công.',
+                                        'success'
+                                    )
+
+                                }
+                                else {
+                                    swal.fire(
+                                        'Không thành công!',
+                                        'Đơn nghỉ phép đã tồn tại hoặc không hợp lệ.',
+                                        'danger'
+                                    )
+                                }
+                            },
+                            error: function (request, status, error) {
+                                Swal.fire(
+                                    'Kết nối không thành công',
+                                    'Vui lòng kiểm tra lại kết nối Internet',
+                                    'danger'
+                                )
+                            },
+                            timeout: 5000,
+                        });
+                    } else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                });
+
+            });
+        });
+
+
+
+    </script>
+}
